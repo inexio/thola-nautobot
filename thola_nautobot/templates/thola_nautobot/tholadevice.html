@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load buttons %}
+{% load static %}
+{% load custom_links %}
+{% load helpers %}
+
+{% block title %}{{ object.device.name }} Thola{% endblock %}
+
+{% block header %}
+    <div class="row noprint">
+        <div class="col">
+            <ol class="breadcrumb">
+                <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
+                <li>{{ object.device.name }}</li>
+            </ol>
+        </div>
+    </div>
+    <div class="pull-right noprint">
+        {% edit_button object use_pk=1 %}
+        {% delete_button object use_pk=1 %}
+    </div>
+    <h1>{{ object.device.name }} Thola</h1>
+    {% include 'inc/created_updated.html' %}
+    <div class="pull-right noprint">
+        {% custom_links object %}
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation"{% if not active_tab %} class="active"{% endif %}>
+            <a href="{{ object.get_absolute_url }}">Thola Device</a>
+        </li>
+        <li role="presentation" class="disabled">
+            <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Status</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Details</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Name</td>
+                    <td>{{ object.device.name }}</td>
+                </tr>
+                <tr>
+                    <td>IP</td>
+                    <td>{{ object.device.primary_ip }}</td>
+                </tr>
+                <tr>
+                    <td>Community</td>
+                    <td>{{ object.snmp_community }}</td>
+                </tr>
+                <tr>
+                    <td>Version</td>
+                    <td>{{ object.snmp_version }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

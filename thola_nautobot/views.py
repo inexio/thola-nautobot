@@ -1,6 +1,5 @@
-"""Views for thola_nautobot."""
+"""Views for thola nautobot."""
 from nautobot.core.views import generic
-from nautobot.dcim import models
 
 from . import models, tables, forms
 
@@ -17,15 +16,7 @@ class TholaDeviceView(generic.ObjectView):
     """Detailed view for a specific thola device."""
 
     queryset = models.TholaDevice.objects.all()
-
-    def get_extra_context(self, request, instance):
-        """Extend content of detailed view for a specific thola device."""
-
-        device = models.TholaDevice.objects.filter()  # TODO: get device reference for thola device
-
-        return {
-            "device": device
-        }
+    template_name = "thola_nautobot/tholadevice.html"
 
 
 class TholaDeviceEditView(generic.ObjectEditView):

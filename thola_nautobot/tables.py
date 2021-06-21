@@ -1,4 +1,4 @@
-"""Tables for thola_nautobot"""
+"""Tables for thola nautobot."""
 import django_tables2 as tables
 
 from nautobot.utilities.tables import BaseTable, ToggleColumn
@@ -24,19 +24,8 @@ class TholaDeviceTable(BaseTable):
             "snmp_community",
             "snmp_version",
             "snmp_port",
-            "snmp_discover_par_requests",
-            "snmp_discover_retries",
-            "snmp_discover_timeout",
             "http_password",
             "http_port",
             "http_username",
             "https_port",
-            "interfaces",
-            "cpu",
-            "memory",
-            "disk",
-            "hardware_health",
-            "ups",
-            "sbc",
-            "server"
         )

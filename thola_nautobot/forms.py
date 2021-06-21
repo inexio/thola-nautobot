@@ -1,4 +1,4 @@
-"""Forms for thola_nautobot."""
+"""Forms for for thola nautobot."""
 from django import forms
 from nautobot.dcim.models import Device
 
@@ -92,6 +92,17 @@ class TholaDeviceForm(forms.ModelForm):
 
     def save(self, commit=True, **kwargs):
         """Save the model and the associated components."""
-        super().save(commit=commit)
-        device: Device = Device.objects.get(self.device)
-        print(device.name)
+        model = super().save(commit=False)
+
+        # TODO: call the api to set the available components on the thola device
+
+        model.interfaces = True
+        model.cpu = True
+        model.memory = True
+        model.disk = True
+        model.hardware_health = True
+        model.ups = True
+        model.sbc = True
+        model.server = True
+        model.save()
+        return model

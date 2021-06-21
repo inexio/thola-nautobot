@@ -1,4 +1,4 @@
-"""Models for thola_nautobot."""
+"""Models for thola nautobot."""
 from django.db import models
 from django.urls import reverse
 from nautobot.core.models.generics import PrimaryModel
@@ -10,7 +10,7 @@ class TholaDevice(PrimaryModel):
     (nautobot.dcim.models), snmp and http properties and its available components.
     """
 
-    device = models.ForeignKey(to="dcim.Device", on_delete=models.DO_NOTHING)
+    device = models.ForeignKey(to="dcim.Device", on_delete=models.CASCADE)
 
     # snmp properties of the device
     snmp_community = models.CharField(max_length=255, help_text="snmp community of the device", null=True)

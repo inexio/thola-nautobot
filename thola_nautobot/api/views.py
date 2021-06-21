@@ -1,3 +1,4 @@
+"""REST API views for thola nautobot."""
 import urllib3
 from rest_framework import viewsets
 from rest_framework.request import Request
@@ -16,7 +17,7 @@ class ReadLiveData(viewsets.ViewSet):
     queryset = TholaDevice.objects.all()  # TODO why do we need this?
 
     def get(self, request: Request):
-        device = request.query_params["device"]
+        device_uuid = request.query_params["device"]
         response = {}
         return JsonResponse(response)
 
@@ -25,7 +26,7 @@ class ReadAvailableComponents(viewsets.ViewSet):
     """API to read all available components of a device."""
 
     def get(self, request: Request):
-        device = request.query_params["device"]
+        device_uuid = request.query_params["device"]
         response = {}
         return JsonResponse(response)
 
