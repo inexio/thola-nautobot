@@ -2,15 +2,13 @@
 from nautobot.core.views import generic
 from nautobot.dcim import models
 
-from . import models, tables
+from . import models, tables, forms
 
 
 class TholaDeviceListView(generic.ObjectListView):
     """View for listing all thola devices."""
 
-    queryset = models.TholaDevice.objects.all().prefetch_related(
-        ""
-    )
+    queryset = models.TholaDevice.objects.all()
     table = tables.TholaDeviceTable
     action_buttons = {"add"}
 
@@ -33,8 +31,9 @@ class TholaDeviceView(generic.ObjectView):
 class TholaDeviceEditView(generic.ObjectEditView):
     """View for editing a thola device."""
 
+    model = models.TholaDevice
     queryset = models.TholaDevice.objects.all()
-    model_form = """forms.TholaDeviceForm"""  # TODO
+    model_form = forms.TholaDeviceForm
 
 
 class TholaDeviceDeleteView(generic.ObjectDeleteView):

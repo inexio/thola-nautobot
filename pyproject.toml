@@ -6,8 +6,9 @@ authors = ["Thola Team"]
 license = "BSD-2-Clause License"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 nautobot = "~1.0"
+thola-client = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 

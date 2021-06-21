@@ -1,4 +1,4 @@
-"""Plugin declaration for thola_nautobot."""
+"""Plugin declaration for thola nautobot."""
 
 __version__ = '0.1.0'
 
