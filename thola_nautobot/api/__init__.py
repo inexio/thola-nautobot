@@ -1,1 +1,1 @@
-"""REST API module for thola_nautobot plugin."""
+"""REST API module for thola nautobot plugin."""

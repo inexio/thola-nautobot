@@ -1,5 +1,5 @@
 import urllib3
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.request import Request
 from django.http import JsonResponse
 
@@ -7,9 +7,13 @@ import thola_client
 import thola_client.api.read_api as read
 import thola_client.rest as rest
 
+from thola_nautobot.models import TholaDevice
 
-class ReadLiveData(APIView):
+
+class ReadLiveData(viewsets.ViewSet):
     """API to read live data about a device."""
+
+    queryset = TholaDevice.objects.all()  # TODO why do we need this?
 
     def get(self, request: Request):
         device = request.query_params["device"]
@@ -17,7 +21,7 @@ class ReadLiveData(APIView):
         return JsonResponse(response)
 
 
-class ReadAvailableComponents(APIView):
+class ReadAvailableComponents(viewsets.ViewSet):
     """API to read all available components of a device."""
 
     def get(self, request: Request):
