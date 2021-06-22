@@ -1,0 +1,16 @@
+{% block content %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Thola</strong>
+    </div>
+    <div class="panel-body rendered-markdown">
+        <span class="text-muted">Not configured for this device.</span>
+    </div>
+    <div class="panel-footer text-right noprint">
+        <a href="{% url 'plugins:thola_nautobot:tholadevice_add' %}" class="btn btn-primary btn-xs">
+            <span class="mdi mdi-plus-thick" aria-hidden="true"></span>
+            Enable
+        </a>
+    </div>
+</div>
+{% endblock %}

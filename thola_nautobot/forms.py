@@ -1,4 +1,4 @@
-"""Forms for for thola nautobot."""
+"""Forms for thola nautobot."""
 from django import forms
 from nautobot.dcim.models import Device
 

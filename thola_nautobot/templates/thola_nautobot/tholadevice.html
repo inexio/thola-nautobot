@@ -29,7 +29,7 @@
             <a href="{{ object.get_absolute_url }}">Thola Device</a>
         </li>
         <li role="presentation" class="disabled">
-            <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Status</a>
+            <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
         </li>
     </ul>
 {% endblock %}
