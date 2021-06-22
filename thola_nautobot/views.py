@@ -2,6 +2,7 @@
 from nautobot.core.views import generic
 
 from . import models, tables, forms
+from .models import TholaDevice
 
 
 class TholaDeviceListView(generic.ObjectListView):
@@ -35,4 +36,13 @@ class TholaDeviceDeleteView(generic.ObjectDeleteView):
 
 class TholaDeviceStatusView(generic.ObjectView):
     """Detailed view for live status of a thola device."""
-    # TODO
+
+    queryset = TholaDevice.objects.all()
+    template_name = "thola_nautobot/tholastatus.html"
+
+    def get_extra_context(self, request, instance):
+        """Add extra data to status view of a thola device."""
+
+        return {
+            "livedata_url": "/api/plugins/thola_nautobot/tholadevice/{}/livedata".format(instance.pk)
+        }
