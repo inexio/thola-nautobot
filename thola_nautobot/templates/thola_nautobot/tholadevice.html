@@ -7,59 +7,183 @@
 {% block title %}{{ object.device.name }} Thola{% endblock %}
 
 {% block header %}
-    <div class="row noprint">
-        <div class="col">
-            <ol class="breadcrumb">
-                <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
-                <li>{{ object.device.name }}</li>
-            </ol>
-        </div>
+<div class="row noprint">
+    <div class="col">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
+            <li>{{ object.device.name }}</li>
+        </ol>
     </div>
-    <div class="pull-right noprint">
-        {% edit_button object use_pk=1 %}
-        {% delete_button object use_pk=1 %}
-    </div>
-    <h1>{{ object.device.name }} Thola</h1>
-    {% include 'inc/created_updated.html' %}
-    <div class="pull-right noprint">
-        {% custom_links object %}
-    </div>
-    <ul class="nav nav-tabs">
-        <li role="presentation"{% if not active_tab %} class="active"{% endif %}>
-            <a href="{{ object.get_absolute_url }}">Thola Device</a>
-        </li>
-        <li role="presentation" class="disabled">
-            <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
-        </li>
-    </ul>
+</div>
+<div class="pull-right noprint">
+    {% edit_button object use_pk=1 %}
+    {% delete_button object use_pk=1 %}
+</div>
+<h1>{{ object.device.name }} Thola</h1>
+{% include 'inc/created_updated.html' %}
+<div class="pull-right noprint">
+    {% custom_links object %}
+</div>
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active">
+        <a href="{{ object.get_absolute_url }}">Thola Device</a>
+    </li>
+    <li role="presentation">
+        <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
+    </li>
+</ul>
 {% endblock %}
 
 {% block content %}
 <div class="row">
-	<div class="col-md-4">
+    <div class="col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Details</strong>
+                <strong>Device</strong>
             </div>
             <table class="table table-hover panel-body attr-table">
                 <tr>
                     <td>Name</td>
-                    <td>{{ object.device.name }}</td>
+                    <td><a href="{{ object.device.get_absolute_url }}">{{ object.device.name }}</a></td>
                 </tr>
                 <tr>
-                    <td>IP</td>
+                    <td>Primary IP</td>
+                    {% if object.device.primary_ip %}
                     <td>{{ object.device.primary_ip }}</td>
+                    {% else %}
+                    <td><span class="text-danger">None</span></td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>SNMP Config</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Version</td>
+                    <td>{{ object.snmp_version }}</td>
                 </tr>
                 <tr>
                     <td>Community</td>
                     <td>{{ object.snmp_community }}</td>
                 </tr>
                 <tr>
-                    <td>Version</td>
-                    <td>{{ object.snmp_version }}</td>
+                    <td>Port</td>
+                    <td>{{ object.snmp_port }}</td>
+                </tr>
+                <tr>
+                    <td>Discover par requests</td>
+                    <td>{{ object.snmp_discover_par_requests }}</td>
+                </tr>
+                <tr>
+                    <td>Discover retries</td>
+                    <td>{{ object.snmp_discover_retries }}</td>
+                </tr>
+                <tr>
+                    <td>Discover timeout</td>
+                    <td>{{ object.snmp_discover_timeout }}</td>
                 </tr>
             </table>
         </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>HTTP Config</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Passwort</td>
+                    <td>{{ object.http_password }}</td>
+                </tr>
+                <tr>
+                    <td>Username</td>
+                    <td>{{ object.http_username }}</td>
+                </tr>
+                <tr>
+                    <td>HTTP Port</td>
+                    <td>{{ object.http_port }}</td>
+                </tr>
+                <tr>
+                    <td>HTTPS Port</td>
+                    <td>{{ object.https_port }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Components</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Interfaces</td>
+                    {% if object.interfaces %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>CPU</td>
+                    {% if object.cpu %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Memory</td>
+                    {% if object.memory %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Disk</td>
+                    {% if object.disk %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Hardware health</td>
+                    {% if object.hardware_health %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>UPS</td>
+                    {% if object.ups %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>SBC</td>
+                    {% if object.sbc %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Server</td>
+                    {% if object.server %}
+                    <td><span class="mdi mdi-check text-success"></span></td>
+                    {% else %}
+                    <td><span class="mdi mdi-close"></span></td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+
     </div>
 </div>
 {% endblock %}

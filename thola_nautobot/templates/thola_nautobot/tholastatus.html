@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load buttons %}
+{% load static %}
+{% load custom_links %}
+{% load helpers %}
+
+{% block title %}{{ object.device.name }} Thola{% endblock %}
+
+{% block header %}
+<div class="row noprint">
+    <div class="col">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
+            <li>{{ object.device.name }}</li>
+        </ol>
+    </div>
+</div>
+<div class="pull-right noprint">
+    {% edit_button object use_pk=1 %}
+    {% delete_button object use_pk=1 %}
+</div>
+<h1>{{ object.device.name }} Thola</h1>
+{% include 'inc/created_updated.html' %}
+<div class="pull-right noprint">
+    {% custom_links object %}
+</div>
+<ul class="nav nav-tabs">
+    <li role="presentation">
+        <a href="{{ object.get_absolute_url }}">Thola Device</a>
+    </li>
+    <li role="presentation" class="active">
+        <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Status</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tbody id="status_table">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: "{{ livedata_url }}",
+            dataType: 'json',
+            success: function (json) {
+                if (json['thola_status']['cpu']) {
+                    $('#status_table').append("<tr><th>CPU</th><td>" + json['thola_status']['cpu'] + "</td></tr>");
+                }
+                if (json['thola_status']['memory']) {
+                    $('#status_table').append("<tr><th>Memory</th><td>" + json['thola_status']['memory'] + "</td></tr>");
+                }
+                if (json['thola_status']['disk']) {
+                    $('#status_table').append("<tr><th>Disk</th><td>" + json['thola_status']['disk'] + "</td></tr>");
+                }
+                // TODO add more
+            },
+            error: function (xhr) {
+                alert(xhr.responseText)
+            }
+        })
+    })
+</script>
+{% endblock %}
