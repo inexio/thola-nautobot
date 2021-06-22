@@ -1,10 +1,8 @@
 """REST API urls for thola nautobot."""
 from nautobot.core.api import OrderedDefaultRouter
-from . import views
+from .views import TholaDeviceViews
 
 router = OrderedDefaultRouter()
-# router.APIRootView = None
-router.register("live_data", views.ReadLiveData)
-urlpatterns = router.urls
+router.register("tholadevice", TholaDeviceViews)
 
-app_name = "thola-api"
+urlpatterns = router.urls

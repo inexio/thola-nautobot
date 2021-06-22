@@ -1,34 +1,32 @@
 """REST API views for thola nautobot."""
 import urllib3
-from rest_framework import viewsets
-from rest_framework.request import Request
-from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from nautobot.core.api.exceptions import ServiceUnavailable
+from rest_framework.decorators import action
 
 import thola_client
 import thola_client.api.read_api as read
 import thola_client.rest as rest
+from rest_framework.viewsets import ModelViewSet
 
+from thola_nautobot.api.serializers import TholaDeviceSerializer
 from thola_nautobot.models import TholaDevice
 
 
-class ReadLiveData(viewsets.ViewSet):
-    """API to read live data about a device."""
+class TholaDeviceViews(ModelViewSet):
+    """API view for thola device operations."""
 
-    queryset = TholaDevice.objects.all()  # TODO why do we need this?
+    queryset = TholaDevice.objects.all()
+    serializer_class = TholaDeviceSerializer
 
-    def get(self, request: Request):
-        device_uuid = request.query_params["device"]
-        response = {}
-        return JsonResponse(response)
+    @action(detail=True, url_path="livedata")
+    def livedata(self, request, pk):
+        """Read all available live data of a given device."""
 
-
-class ReadAvailableComponents(viewsets.ViewSet):
-    """API to read all available components of a device."""
-
-    def get(self, request: Request):
-        device_uuid = request.query_params["device"]
-        response = {}
-        return JsonResponse(response)
+        thola_device = get_object_or_404(self.queryset, pk=pk)
+        if not thola_device:
+            raise ServiceUnavailable("This device does not exist.")
+        raise ServiceUnavailable("This device " + thola_device.device.name + " does exist.")
 
 
 def thola_read_available_components(host, api_host, community, port, version):
