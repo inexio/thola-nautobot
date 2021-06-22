@@ -14,7 +14,9 @@ class Thola(PluginConfig):
     version = __version__
     author = 'Thola Team'
     author_email = 'nautobot@thola.io'
-    required_settings = []
+    default_settings = {
+        'thola_api': 'http://localhost:8237'
+    }
 
 
 config = Thola
