@@ -1,7 +1,6 @@
 """REST API views for thola nautobot."""
 from django.shortcuts import get_object_or_404
 from nautobot.core.api.exceptions import ServiceUnavailable
-from nautobot.dcim.models import Device
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -98,7 +97,7 @@ def thola_read_available_components(thola_device, snmp_port, discover_retries, d
     """Executes thola read available-components on a given device."""
     body = thola_client.ReadAvailableComponentsRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -127,7 +126,7 @@ def thola_read_cpu_load(thola_device, snmp_port, discover_retries, discover_time
     """Executes thola read cpu-load on a given device."""
     body = thola_client.ReadCPULoadRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -156,7 +155,7 @@ def thola_read_disk(thola_device, snmp_port, discover_retries, discover_timeout,
     """Executes thola read disk on a given device."""
     body = thola_client.ReadDiskRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -185,7 +184,7 @@ def thola_read_hardware_health(thola_device, snmp_port, discover_retries, discov
     """Executes thola read hardware-health on a given device."""
     body = thola_client.ReadHardwareHealthRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -214,7 +213,7 @@ def thola_read_interfaces(thola_device, snmp_port, discover_retries, discover_ti
     """Executes thola read interfaces on a given device."""
     body = thola_client.ReadInterfacesRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -243,7 +242,7 @@ def thola_read_memory_usage(thola_device, snmp_port, discover_retries, discover_
     """Executes thola read memory-usage on a given device."""
     body = thola_client.ReadMemoryUsageRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -272,7 +271,7 @@ def thola_read_sbc(thola_device, snmp_port, discover_retries, discover_timeout,
     """Executes thola read sbc on a given device."""
     body = thola_client.ReadSBCRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -301,7 +300,7 @@ def thola_read_server(thola_device, snmp_port, discover_retries, discover_timeou
     """Executes thola read server on a given device."""
     body = thola_client.ReadServerRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
@@ -330,7 +329,7 @@ def thola_read_ups(thola_device, snmp_port, discover_retries, discover_timeout,
     """Executes thola read ups on a given device."""
     body = thola_client.ReadUPSRequest(
         device_data=thola_client.DeviceData(
-            ip_address=thola_device.device.primary_ip4,
+            ip_address=str(thola_device.device.primary_ip4),
             connection_data=thola_client.ConnectionData(
                 snmp=thola_client.SNMPConnectionData(
                     communities=[thola_device.snmp_community],
