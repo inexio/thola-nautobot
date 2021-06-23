@@ -4,11 +4,23 @@
 class SNMPConfig:
     """Class that stores snmp config."""
 
-    def __init__(self, community, version, port, discover_par_request, discover_retries, discover_timeout):
+    def __init__(self, thola_device):
         """Create an snmp config."""
-        self.community = community
-        self.version = version
-        self.port = port
-        self.discover_par_request = discover_par_request
-        self.discover_retries = discover_retries
-        self.discover_timeout = discover_timeout
+        self.community = "public"
+        self.version = "2c"
+        self.port = 161
+        self.discover_retries = 0
+        self.discover_timeout = 2
+        self.discover_par_requests = 5
+        if thola_device.snmp_community is not None:
+            self.community = thola_device.snmp_community
+        if thola_device.snmp_version is not None:
+            self.version = thola_device.snmp_version
+        if thola_device.snmp_port is not None:
+            self.port = thola_device.snmp_version
+        if thola_device.snmp_discover_retries is not None:
+            self.discover_retries = thola_device.snmp_discover_retries
+        if thola_device.snmp_discover_timeout is not None:
+            self.discover_timeout = thola_device.snmp_discover_timeout
+        if thola_device.snmp_discover_par_requests is not None:
+            self.discover_par_requests = thola_device.snmp_discover_par_requests
