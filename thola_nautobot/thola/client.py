@@ -56,7 +56,7 @@ def thola_read_available_components(thola_device, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -84,7 +84,7 @@ def thola_read_cpu_load(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -112,7 +112,7 @@ def thola_read_disk(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -140,7 +140,7 @@ def thola_read_hardware_health(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -168,7 +168,7 @@ def thola_read_interfaces(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -196,7 +196,7 @@ def thola_read_memory_usage(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -224,7 +224,7 @@ def thola_read_sbc(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -252,7 +252,7 @@ def thola_read_server(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
 
 
@@ -280,5 +280,5 @@ def thola_read_ups(host_ip, snmp_config: SNMPConfig, api_host):
     except rest.ApiException as e:
         return {"error": e.body}
     except urllib3.exceptions.MaxRetryError as e:
-        return {"error": e.reason}
+        return {"error": "Connection to thola API couldn't be established"}
     return result_dict
