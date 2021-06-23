@@ -44,5 +44,5 @@ class TholaDeviceStatusView(generic.ObjectView):
         """Add extra data to status view of a thola device."""
 
         return {
-            "livedata_url": "/api/plugins/thola_nautobot/tholadevice/{}/livedata".format(instance.pk)
+            "livedata_url": "/api/plugins/thola_nautobot/tholadevice/{}/livedata/".format(instance.pk)
         }
