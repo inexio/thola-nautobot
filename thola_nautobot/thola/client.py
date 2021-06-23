@@ -1,4 +1,5 @@
 import urllib3
+import sys
 import thola_client
 import thola_client.api.read_api as read
 import thola_client.rest as rest
@@ -11,6 +12,8 @@ def read_available_data(thola_device, api_host):
     snmp_config = SNMPConfig(thola_device)
     host_ip = str(thola_device.device.primary_ip4)
     results = {}
+    stderr = sys.stderr
+    sys.stderr = None
     if thola_device.cpu:
         results['cpu'] = thola_read_cpu_load(host_ip, snmp_config, api_host)
     if thola_device.disk:
@@ -27,6 +30,7 @@ def read_available_data(thola_device, api_host):
         results['server'] = thola_read_server(host_ip, snmp_config, api_host)
     if thola_device.ups:
         results['ups'] = thola_read_ups(host_ip, snmp_config, api_host)
+    sys.stderr = stderr
     return results
 
 
