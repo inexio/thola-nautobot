@@ -17,7 +17,7 @@ class SNMPConfig:
         if thola_device.snmp_version is not None and thola_device.snmp_version is not "":
             self.version = thola_device.snmp_version
         if thola_device.snmp_port is not None:
-            self.port = thola_device.snmp_version
+            self.port = thola_device.snmp_port
         if thola_device.snmp_discover_retries is not None:
             self.discover_retries = thola_device.snmp_discover_retries
         if thola_device.snmp_discover_timeout is not None:
