@@ -15,13 +15,13 @@ class TholaDeviceForm(forms.ModelForm):
     )
 
     snmp_community = forms.CharField(
-        required=True,
+        required=False,
         label="SNMP community",
         help_text="Community string for SNMP to use. (def: public)"
     )
 
     snmp_version = forms.CharField(
-        required=True,
+        required=False,
         label="SNMP version",
         help_text="SNMP version to use. (def: 2c)"
     )

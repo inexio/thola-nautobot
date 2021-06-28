@@ -27,4 +27,7 @@ class TholaDeviceViews(ModelViewSet):
 
         results = read_available_data(thola_device, api_host)
 
+        if results.get('error'):
+            raise ServiceUnavailable(results.get('error'))
+
         return Response(results)

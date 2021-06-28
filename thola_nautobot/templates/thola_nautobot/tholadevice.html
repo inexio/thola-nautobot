@@ -63,27 +63,51 @@
             <table class="table table-hover panel-body attr-table">
                 <tr>
                     <td>Version</td>
+                    {% if object.snmp_version %}
                     <td>{{ object.snmp_version }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Community</td>
+                    {% if object.snmp_community %}
                     <td>{{ object.snmp_community }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Port</td>
+                    {% if object.snmp_port %}
                     <td>{{ object.snmp_port }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Discover par requests</td>
+                    {% if object.snmp_discover_par_requests %}
                     <td>{{ object.snmp_discover_par_requests }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Discover retries</td>
+                    {% if object.snmp_discover_retries %}
                     <td>{{ object.snmp_discover_retries }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Discover timeout</td>
+                    {% if object.snmp_discover_timeout %}
                     <td>{{ object.snmp_discover_timeout }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
                 </tr>
             </table>
         </div>
@@ -94,19 +118,35 @@
             <table class="table table-hover panel-body attr-table">
                 <tr>
                     <td>Passwort</td>
+                    {% if object.http_password %}
                     <td>{{ object.http_password }}</td>
+                    {% else %}
+                    <td><span class="text-muted">-</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>Username</td>
+                    {% if object.http_username %}
                     <td>{{ object.http_username }}</td>
+                    {% else %}
+                    <td><span class="text-muted">-</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>HTTP Port</td>
+                    {% if object.http_port %}
                     <td>{{ object.http_port }}</td>
+                    {% else %}
+                    <td><span class="text-muted">-</span></td>
+                    {% endif %}
                 </tr>
                 <tr>
                     <td>HTTPS Port</td>
+                     {% if object.https_port %}
                     <td>{{ object.https_port }}</td>
+                    {% else %}
+                    <td><span class="text-muted">-</span></td>
+                    {% endif %}
                 </tr>
             </table>
         </div>

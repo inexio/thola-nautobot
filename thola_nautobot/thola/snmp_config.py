@@ -12,9 +12,9 @@ class SNMPConfig:
         self.discover_retries = 0
         self.discover_timeout = 2
         self.discover_par_requests = 5
-        if thola_device.snmp_community is not None:
+        if thola_device.snmp_community is not None and thola_device.snmp_community is not "":
             self.community = thola_device.snmp_community
-        if thola_device.snmp_version is not None:
+        if thola_device.snmp_version is not None and thola_device.snmp_version is not "":
             self.version = thola_device.snmp_version
         if thola_device.snmp_port is not None:
             self.port = thola_device.snmp_version

@@ -42,9 +42,7 @@
                 <strong>Status</strong>
             </div>
             <table class="table table-hover panel-body attr-table">
-                <tbody id="status_table">
-
-                </tbody>
+                <tbody id="status_table"></tbody>
             </table>
         </div>
     </div>
@@ -58,19 +56,38 @@
             url: "{{ livedata_url }}",
             dataType: 'json',
             success: function (json) {
-                if (json['thola_status']['cpu']) {
-                    $('#status_table').append("<tr><th>CPU</th><td>" + json['thola_status']['cpu'] + "</td></tr>");
+                if (json['interfaces']['error']) {
+                    $('#status_table').append("<tr><th>Interfaces</th><td><span class=\"text-danger\">" + json['interfaces']['error'] + "</span></td></tr>");
                 }
-                if (json['thola_status']['memory']) {
-                    $('#status_table').append("<tr><th>Memory</th><td>" + json['thola_status']['memory'] + "</td></tr>");
+                if (json['cpu']['error']) {
+                    $('#status_table').append("<tr><th>CPU</th><td><span class=\"text-danger\">" + json['cpu']['error'] + "</span></td></tr>");
                 }
-                if (json['thola_status']['disk']) {
-                    $('#status_table').append("<tr><th>Disk</th><td>" + json['thola_status']['disk'] + "</td></tr>");
+                if (json['memory']['error']) {
+                    $('#status_table').append("<tr><th>Memory</th><td><span class=\"text-danger\">" + json['memory']['error'] + "</span></td></tr>");
+                }
+                if (json['disk']['error']) {
+                    $('#status_table').append("<tr><th>Disk</th><td><span class=\"text-danger\">" + json['disk']['error'] + "</span></td></tr>");
+                }
+                if (json['hardware_health']['error']) {
+                    $('#status_table').append("<tr><th>Hardware health</th><td><span class=\"text-danger\">" + json['hardware_health']['error'] + "</span></td></tr>");
+                }
+                if (json['ups']['error']) {
+                    $('#status_table').append("<tr><th>UPS</th><td><span class=\"text-danger\">" + json['ups']['error'] + "</span></td></tr>");
+                }
+                if (json['sbc']['error']) {
+                    $('#status_table').append("<tr><th>SBC</th><td><span class=\"text-danger\">" + json['sbc']['error'] + "</span></td></tr>");
+                }
+                if (json['server']['error']) {
+                    $('#status_table').append("<tr><th>Server</th><td><span class=\"text-danger\">" + json['server']['error'] + "</span></td></tr>");
                 }
                 // TODO add more
             },
             error: function (xhr) {
-                alert(xhr.responseText)
+                if (xhr.responseText['detail']) {
+                    alert(xhr.responseText['detail'])
+                } else {
+                    alert(xhr.responseText)
+                }
             }
         })
     })
