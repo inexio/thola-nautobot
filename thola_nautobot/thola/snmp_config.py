@@ -1,10 +1,11 @@
 """SNMP config for thola nautobot."""
+from thola_nautobot.models import TholaDevice
 
 
 class SNMPConfig:
     """Class that stores snmp config."""
 
-    def __init__(self, thola_device):
+    def __init__(self, community, version, port, discover_retries, discover_timeout, discover_par_requests):
         """Create an snmp config."""
         self.community = "public"
         self.version = "2c"
@@ -12,15 +13,23 @@ class SNMPConfig:
         self.discover_retries = 0
         self.discover_timeout = 2
         self.discover_par_requests = 5
-        if thola_device.snmp_community is not None and thola_device.snmp_community is not "":
-            self.community = thola_device.snmp_community
-        if thola_device.snmp_version is not None and thola_device.snmp_version is not "":
-            self.version = thola_device.snmp_version
-        if thola_device.snmp_port is not None:
-            self.port = thola_device.snmp_port
-        if thola_device.snmp_discover_retries is not None:
-            self.discover_retries = thola_device.snmp_discover_retries
-        if thola_device.snmp_discover_timeout is not None:
-            self.discover_timeout = thola_device.snmp_discover_timeout
-        if thola_device.snmp_discover_par_requests is not None:
-            self.discover_par_requests = thola_device.snmp_discover_par_requests
+        if community is not None and community is not "":
+            self.community = community
+        if version is not None and version is not "":
+            self.version = version
+        if port is not None:
+            self.port = port
+        if discover_retries is not None:
+            self.discover_retries = discover_retries
+        if discover_timeout is not None:
+            self.discover_timeout = discover_timeout
+        if discover_par_requests is not None:
+            self.discover_par_requests = discover_par_requests
+
+
+def from_thola_device(thola_device: TholaDevice) -> SNMPConfig:
+    """Returns a new instance of an snmp config."""
+
+    return SNMPConfig(thola_device.snmp_community, thola_device.snmp_version, thola_device.snmp_port,
+                      thola_device.snmp_discover_retries, thola_device.snmp_discover_timeout,
+                      thola_device.snmp_discover_par_requests)

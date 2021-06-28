@@ -3,6 +3,8 @@ from django import forms
 from nautobot.dcim.models import Device
 
 from thola_nautobot.models import TholaDevice
+from thola_nautobot.thola.client import thola_read_available_components
+from thola_nautobot.thola.snmp_config import SNMPConfig
 
 
 class TholaDeviceForm(forms.ModelForm):
@@ -94,15 +96,19 @@ class TholaDeviceForm(forms.ModelForm):
         """Save the model and the associated components."""
         model = super().save(commit=False)
 
-        # TODO: call the api to set the available components on the thola device
+        snmp_config = SNMPConfig(model.snmp_community, model.snmp_version, model.snmp_port, model.snmp_discover_retries,
+                                 model.snmp_discover_timeout, model.snmp_discover_par_requests)
+        components = thola_read_available_components(snmp_config, model.device.primary_ip4)
+        if components.get('error'):
+            raise RuntimeError(components.get('error'))
 
-        model.interfaces = True
-        model.cpu = True
-        model.memory = True
-        model.disk = True
-        model.hardware_health = True
-        model.ups = True
-        model.sbc = True
-        model.server = True
+        model.interfaces = "interfaces" in components.get('available_components')
+        model.cpu = "cpu" in components.get('available_components')
+        model.memory = "memory" in components.get('available_components')
+        model.disk = "disk" in components.get('available_components')
+        model.hardware_health = "hardware_health" in components.get('available_components')
+        model.ups = "ups" in components.get('available_components')
+        model.sbc = "sbc" in components.get('available_components')
+        model.server = "server" in components.get('available_components')
         model.save()
         return model

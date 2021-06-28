@@ -7,14 +7,16 @@ import thola_client
 import thola_client.api.read_api as read
 import thola_client.rest as rest
 
-from thola_nautobot.thola.snmp_config import SNMPConfig
+import thola_nautobot.thola.snmp_config as sc
+from thola_nautobot import config
 from thola_nautobot.thola.utils import normalize_ipv4
 
 
-def read_available_data(thola_device, api_host):
+def read_available_data(thola_device):
     """Reads data from the available components set on a given thola device."""
-    snmp_config = SNMPConfig(thola_device)
+    snmp_config = sc.from_thola_device(thola_device)
     host_ip = normalize_ipv4(str(thola_device.device.primary_ip4))
+    api_host = config.default_settings["thola_api"]
     results = {}
     stderr = sys.stderr
     sys.stderr = None  # disable stderr during execution
@@ -41,10 +43,12 @@ def read_available_data(thola_device, api_host):
     return results
 
 
-def thola_read_available_components(thola_device, api_host):
+def thola_read_available_components(snmp_config, primary_ip):
     """Executes thola read available-components on a given device."""
-    snmp_config = SNMPConfig(thola_device)
-    host_ip = str(thola_device.device.primary_ip4)
+    api_host = config.default_settings["thola_api"]
+    host_ip = normalize_ipv4(str(primary_ip))
+    stderr = sys.stderr
+    sys.stderr = None  # disable stderr during execution
     body = thola_client.ReadAvailableComponentsRequest(
         device_data=thola_client.DeviceData(
             ip_address=host_ip,
@@ -66,12 +70,13 @@ def thola_read_available_components(thola_device, api_host):
         result_dict = read_api.read_available_components(body=body).to_dict()
     except rest.ApiException as e:
         return json.loads(e.body)
-    except urllib3.exceptions.MaxRetryError as e:
-        raise e
+    except urllib3.exceptions.MaxRetryError:
+        return {"error": "Connection to Thola API couldn't be established"}
+    sys.stderr = stderr  # enable stderr again
     return result_dict
 
 
-def thola_read_cpu_load(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_cpu_load(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read cpu-load on a given device."""
     body = thola_client.ReadCPULoadRequest(
         device_data=thola_client.DeviceData(
@@ -99,7 +104,7 @@ def thola_read_cpu_load(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_disk(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_disk(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read disk on a given device."""
     body = thola_client.ReadDiskRequest(
         device_data=thola_client.DeviceData(
@@ -127,7 +132,7 @@ def thola_read_disk(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_hardware_health(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_hardware_health(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read hardware-health on a given device."""
     body = thola_client.ReadHardwareHealthRequest(
         device_data=thola_client.DeviceData(
@@ -155,7 +160,7 @@ def thola_read_hardware_health(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_interfaces(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_interfaces(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read interfaces on a given device."""
     body = thola_client.ReadInterfacesRequest(
         device_data=thola_client.DeviceData(
@@ -183,7 +188,7 @@ def thola_read_interfaces(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_memory_usage(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_memory_usage(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read memory-usage on a given device."""
     body = thola_client.ReadMemoryUsageRequest(
         device_data=thola_client.DeviceData(
@@ -211,7 +216,7 @@ def thola_read_memory_usage(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_sbc(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_sbc(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read sbc on a given device."""
     body = thola_client.ReadSBCRequest(
         device_data=thola_client.DeviceData(
@@ -239,7 +244,7 @@ def thola_read_sbc(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_server(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_server(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read server on a given device."""
     body = thola_client.ReadServerRequest(
         device_data=thola_client.DeviceData(
@@ -267,7 +272,7 @@ def thola_read_server(host_ip, snmp_config: SNMPConfig, api_host):
     return result_dict
 
 
-def thola_read_ups(host_ip, snmp_config: SNMPConfig, api_host):
+def thola_read_ups(host_ip, snmp_config: sc.SNMPConfig, api_host):
     """Executes thola read ups on a given device."""
     body = thola_client.ReadUPSRequest(
         device_data=thola_client.DeviceData(

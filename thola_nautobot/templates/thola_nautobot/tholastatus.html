@@ -61,7 +61,7 @@
                         "</div>\n" +
                         "</div>\n" +
                         "</div>")
-                } else if (json['interfaces']) {
+                } else if (json['interfaces']['interfaces']) {
                     $('#status_row').append("" +
                         "<div class=\"row\">" +
                         "<div class=\"col-md-6\">\n" +
@@ -220,7 +220,6 @@
                         "</div>\n" +
                         "</div>")
                 }
-                // TODO add more
             },
             error: function (xhr) {
                 if (xhr.responseText['detail']) {
