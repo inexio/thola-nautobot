@@ -13,9 +13,9 @@ class SNMPConfig:
         self.discover_retries = 0
         self.discover_timeout = 2
         self.discover_par_requests = 5
-        if community is not None and community is not "":
+        if community is not None and community != "":
             self.community = community
-        if version is not None and version is not "":
+        if version is not None and version != "":
             self.version = version
         if port is not None:
             self.port = port
