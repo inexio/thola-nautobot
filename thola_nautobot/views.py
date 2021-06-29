@@ -1,5 +1,8 @@
 """Views for thola nautobot."""
+from django.shortcuts import render
 from nautobot.core.views import generic
+from nautobot.utilities.forms import restrict_form_fields
+from nautobot.utilities.utils import normalize_querydict
 
 from . import models, tables, forms
 from .models import TholaDevice
@@ -26,6 +29,24 @@ class TholaDeviceEditView(generic.ObjectEditView):
     model = models.TholaDevice
     queryset = models.TholaDevice.objects.all()
     model_form = forms.TholaDeviceForm
+
+    def get(self, request, *args, **kwargs):
+        obj = self.alter_obj(self.get_object(kwargs), request, args, kwargs)
+
+        initial_data = normalize_querydict(request.GET)
+        form = self.model_form(instance=obj, initial=initial_data)
+        print(initial_data)
+        restrict_form_fields(form, request.user)
+
+        return render(request, "thola_nautobot/object_edit.html",
+                        {
+                            "obj": obj,
+                            "obj_type": self.queryset.model._meta.verbose_name,
+                            "form": form,
+                            "return_url": self.get_return_url(request, obj),
+                            "editing": obj.present_in_database,
+                        },
+                      )
 
 
 class TholaDeviceDeleteView(generic.ObjectDeleteView):
