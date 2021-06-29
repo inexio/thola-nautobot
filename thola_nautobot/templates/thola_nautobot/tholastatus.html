@@ -223,9 +223,33 @@
             },
             error: function (xhr) {
                 if (xhr.responseText['detail']) {
-                    alert(xhr.responseText['detail'])
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Error</strong>\n" +
+                        "</div>\n" +
+                        "<div class=\"panel-body rendered-markdown\">\n" +
+                        "<span class=\"text-danger\">" + xhr.responseText['detail'] + "</span>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
                 } else {
-                    alert(xhr.responseText)
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Error</strong>\n" +
+                        "</div>\n" +
+                        "<div class=\"panel-body rendered-markdown\">\n" +
+                        "<span class=\"text-danger\">" + JSON.parse(xhr.responseText)['detail'] + "</span>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
                 }
             }
         })
