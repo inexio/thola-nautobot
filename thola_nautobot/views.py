@@ -35,7 +35,6 @@ class TholaDeviceEditView(generic.ObjectEditView):
 
         initial_data = normalize_querydict(request.GET)
         form = self.model_form(instance=obj, initial=initial_data)
-        print(initial_data)
         restrict_form_fields(form, request.user)
 
         return render(request, "thola_nautobot/tholadevice_edit.html",
