@@ -33,7 +33,6 @@ class TholaDevice(PrimaryModel):
     disk = models.BooleanField(editable=False)
     hardware_health = models.BooleanField(editable=False)
     ups = models.BooleanField(editable=False)
-    sbc = models.BooleanField(editable=False)
     server = models.BooleanField(editable=False)
 
     def __str__(self):

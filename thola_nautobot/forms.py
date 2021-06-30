@@ -112,7 +112,6 @@ class TholaDeviceForm(forms.ModelForm):
         model.disk = "disk" in components.get('available_components')
         model.hardware_health = "hardware_health" in components.get('available_components')
         model.ups = "ups" in components.get('available_components')
-        model.sbc = "sbc" in components.get('available_components')
         model.server = "server" in components.get('available_components')
         model.save()
         return model

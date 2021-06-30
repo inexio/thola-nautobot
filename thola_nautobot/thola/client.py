@@ -56,8 +56,6 @@ def read_available_data(thola_device):
             results['interfaces'] = thola_read_interfaces(host_ip, snmp_config, api_host)
         if thola_device.memory:
             results['memory'] = thola_read_memory_usage(host_ip, snmp_config, api_host)
-        if thola_device.sbc:
-            results['sbc'] = thola_read_sbc(host_ip, snmp_config, api_host)
         if thola_device.server:
             results['server'] = thola_read_server(host_ip, snmp_config, api_host)
         if thola_device.ups:
@@ -234,34 +232,6 @@ def thola_read_memory_usage(host_ip, snmp_config: sc.SNMPConfig, api_host):
     read_api.api_client.configuration.host = api_host
     try:
         result_dict = read_api.read_memory_usage(body=body).to_dict()
-    except rest.ApiException as e:
-        return json.loads(e.body)
-    except urllib3.exceptions.MaxRetryError as e:
-        raise e
-    return result_dict
-
-
-def thola_read_sbc(host_ip, snmp_config: sc.SNMPConfig, api_host):
-    """Executes thola read sbc on a given device."""
-    body = thola_client.ReadSBCRequest(
-        device_data=thola_client.DeviceData(
-            ip_address=host_ip,
-            connection_data=thola_client.ConnectionData(
-                snmp=thola_client.SNMPConnectionData(
-                    communities=[snmp_config.community],
-                    versions=[snmp_config.version],
-                    ports=[snmp_config.port],
-                    discover_retries=snmp_config.discover_retries,
-                    discover_timeout=snmp_config.discover_timeout,
-                    discover_parallel_requests=snmp_config.discover_par_requests
-                )
-            )
-        )
-    )
-    read_api = read.ReadApi()
-    read_api.api_client.configuration.host = api_host
-    try:
-        result_dict = read_api.read_sbc(body=body).to_dict()
     except rest.ApiException as e:
         return json.loads(e.body)
     except urllib3.exceptions.MaxRetryError as e:
