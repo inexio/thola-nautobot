@@ -64,6 +64,30 @@ If successful, you find an overview over all components that you can monitor on 
 
 Now you can inspect the live status of your device by clicking on the `Live Status` tab. This shows the status of all available components for your device.
 
+## Plugin Config
+
+As stated before nautobot has a config file, where plugin parameters can be set:
+
+```python
+PLUGINS_CONFIG = {
+  "thola_nautobot": {
+    # ADD YOUR PARAMETERS HERE
+  }
+}
+```
+
+For thola_nautbot all parameters are optional. If a parameter is not set, the plugin will just use the default values.
+
+| Parameter | Description | Type | Default value
+|---|---|---|---|
+| `thola_api` | Default Address and port of a running thola API | String | `"http://localhost:8237"` |
+| `snmp_community` | Default SNMP community for a device | String | `"public"` |
+| `snmp_version` | Default SNMP version for a device| String | `"2c"` |
+| `snmp_port` | Default SNMP port for a device | Integer | `161` |
+| `snmp_discover_par_requests` | Default amount of parallel connection requests used while trying to get a valid SNMP connection | Integer | `5` |
+| `snmp_discover_timeout` | Default timeout in seconds used while trying to get a valid SNMP connection | Integer | `2` |
+| `snmp_discover_retries` | Default number of retries used while trying to get a valid SNMP connection | Integer | `0` |
+
 ## API
 
 The plugin comes with 6 API endpoints.
