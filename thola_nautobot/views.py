@@ -38,14 +38,14 @@ class TholaDeviceEditView(generic.ObjectEditView):
         print(initial_data)
         restrict_form_fields(form, request.user)
 
-        return render(request, "thola_nautobot/object_edit.html",
-                        {
-                            "obj": obj,
-                            "obj_type": self.queryset.model._meta.verbose_name,
-                            "form": form,
-                            "return_url": self.get_return_url(request, obj),
-                            "editing": obj.present_in_database,
-                        },
+        return render(request, "thola_nautobot/tholadevice_edit.html",
+                      {
+                          "obj": obj,
+                          "obj_type": self.queryset.model._meta.verbose_name,
+                          "form": form,
+                          "return_url": self.get_return_url(request, obj),
+                          "editing": obj.present_in_database,
+                      },
                       )
 
 

@@ -62,9 +62,9 @@
     <script>
         urlParams = new URLSearchParams(window.location.search);
         device = urlParams.get('device');
-        var parent = document.getElementById("id_device");
-        var options = parent.getElementsByTagName("option");
-        for (var i = 0; i < options.length; i++) {
+        const parent = document.getElementById("id_device");
+        const options = parent.getElementsByTagName("option");
+        for (let i = 0; i < options.length; i++) {
             if (options[i].innerHTML === device) {
                 options[i].selected = true;
             }
