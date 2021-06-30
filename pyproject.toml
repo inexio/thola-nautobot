@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "thola-nautobot"
-version = "0.1.0"
+version = "0.2.0"
 description = "Thola plugin for Nautobot"
 authors = ["Thola Team"]
 license = "BSD-2-Clause License"

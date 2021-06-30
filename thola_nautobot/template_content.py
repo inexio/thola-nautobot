@@ -2,7 +2,6 @@
 from nautobot.extras.plugins import PluginTemplateExtension
 
 from thola_nautobot.models import TholaDevice
-from nautobot.dcim.models import Device
 
 
 class DeviceStatusLink(PluginTemplateExtension):

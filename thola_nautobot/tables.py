@@ -3,7 +3,7 @@ import django_tables2 as tables
 
 from nautobot.utilities.tables import BaseTable, ToggleColumn
 
-from .models import TholaDevice
+from .models import TholaDevice, TholaOnboarding
 
 
 class TholaDeviceTable(BaseTable):
@@ -28,4 +28,27 @@ class TholaDeviceTable(BaseTable):
             "http_port",
             "http_username",
             "https_port",
+        )
+
+
+class TholaOnboardingTable(BaseTable):
+    """Table for thola onboarding task."""
+
+    pk = ToggleColumn()
+    id = tables.LinkColumn()
+    device = tables.LinkColumn()
+
+    class Meta(BaseTable.Meta):
+        """Meta for class TholaOnboardingTable."""
+
+        model = TholaOnboarding
+        fields = (
+            "pk",
+            "id",
+            "device",
+            "ip",
+            "snmp_community",
+            "snmp_version",
+            "snmp_port",
+            "status"
         )

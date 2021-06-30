@@ -7,6 +7,10 @@ from nautobot.utilities.utils import normalize_querydict
 from . import models, tables, forms
 from .models import TholaDevice
 
+"""
+Thola Device
+"""
+
 
 class TholaDeviceListView(generic.ObjectListView):
     """View for listing all thola devices."""
@@ -66,3 +70,38 @@ class TholaDeviceStatusView(generic.ObjectView):
         return {
             "livedata_url": "/api/plugins/thola_nautobot/tholadevice/{}/livedata/".format(instance.pk)
         }
+
+
+"""
+Thola Onboarding
+"""
+
+
+class TholaOnboardingListView(generic.ObjectListView):
+    """View for listing all thola onboarding tasks."""
+
+    queryset = models.TholaOnboarding.objects.all()
+    table = tables.TholaOnboardingTable
+    action_buttons = {"add"}
+
+
+class TholaOnboardingView(generic.ObjectView):
+    """Detailed view for a specific thola onboarding task."""
+
+    queryset = models.TholaOnboarding.objects.all()
+    template_name = "thola_nautobot/tholaonboarding.html"
+
+
+class TholaOnboardingEditView(generic.ObjectEditView):
+    """View for editing a thola onboarding task."""
+
+    model = models.TholaOnboarding
+    queryset = models.TholaOnboarding.objects.all()
+    model_form = forms.TholaOnboardingForm
+
+
+class TholaOnboardingDeleteView(generic.ObjectDeleteView):
+    """View for deleting a thola onboarding task."""
+
+    queryset = models.TholaOnboarding.objects.all()
+
