@@ -17,6 +17,8 @@ PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 def read_available_data(thola_device):
     """Reads data from the available components set on a given thola device."""
     snmp_config = sc.from_thola_device(thola_device)
+
+    # check for correct snmp config
     wrong_config = "thola_nautobot config is incorrect | "
     wrong_variables = []
     if not isinstance(snmp_config.community, str):
@@ -31,10 +33,13 @@ def read_available_data(thola_device):
         wrong_variables.append("snmp_discover_timeout: Must be an integer, ")
     if not isinstance(snmp_config.discover_par_requests, int):
         wrong_variables.append("snmp_discover_par_requests: Must be an integer, ")
-    if wrong_variables is not []:
+
+    # print incorrect snmp parameters
+    if len(wrong_variables) != 0:
         for variable in wrong_variables:
             wrong_config += variable
         return {"error": wrong_config[0:len(wrong_config)-2]}
+
     host_ip = normalize_ipv4(str(thola_device.device.primary_ip4))
     api_host = PLUGIN_SETTINGS["thola_api"]
     results = {}

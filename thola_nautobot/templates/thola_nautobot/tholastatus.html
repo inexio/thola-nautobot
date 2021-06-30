@@ -65,8 +65,8 @@
                     let interfaces = json['interfaces']['interfaces']
                     let interface_str = ""
                     for (let i = 0; i < interfaces.length; i++) {
-                        let admin_status = interfaces[i]['if_admin_status'] === "up" ? "<span class=\"mdi mdi-check-circle text-success\"></span>" : "<span class=\"mdi mdi-close-circle text-danger\"></span>"
-                        let oper_status = interfaces[i]['if_oper_status'] === "up" ? "<span class=\"mdi mdi-check-circle text-success\"></span>" : "<span class=\"mdi mdi-close-circle text-danger\"></span>"
+                        let admin_status = interfaces[i]['if_admin_status'] === "up" ? "<span class=\"mdi mdi-check-circle text-success\" title=\"up\"></span>" : "<span class=\"mdi mdi-close-circle text-danger\" title=\"down\"></span>"
+                        let oper_status = interfaces[i]['if_oper_status'] === "up" ? "<span class=\"mdi mdi-check-circle text-success\" title=\"up\"></span>" : "<span class=\"mdi mdi-close-circle text-danger\" title=\"down\"></span>"
                         let phys_address = interfaces[i]['if_phys_address'] != null ? interfaces[i]['if_phys_address'] : "<span class=\"text-muted\">-</span>"
                         interface_str += "<tr><td>" + interfaces[i]['if_descr'] + "</td><td>" + phys_address + "</td><td>" + admin_status + "</td><td>" + oper_status + "</td></tr>\n"
                     }
@@ -190,7 +190,47 @@
                 }
 
                 /* hardware_health */
-                /* TODO*/
+                if (json['hardware_health'] && json['hardware_health']['error']) {
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Hardware health</strong>\n" +
+                        "</div>\n" +
+                        "<div class=\"panel-body rendered-markdown\">\n" +
+                        "<span class=\"text-danger\">" + json['hardware_health']['error'] + "</span>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
+                } else if(json['hardware_health']) {
+                    let fans = json['hardware_health']['fans']
+                    let health_str = ""
+                    for (let i = 0; i < fans.length; i++) {
+                        health_str += "<tr><td><span class=\"mdi mdi-fan\" title=\"Fan\"'></span></td><td>" + fans[i]['description'] + "</td><td>" + fans[i]['state'] + "</td></tr>\n"
+                    }
+                    let power_supplies = json['hardware_health']['power_supply']
+                    for (let i = 0; i < power_supplies.length; i++) {
+                        health_str += "<tr><td><span class=\"mdi mdi-power-plug\" title=\"Power supply\"></span></td><td>" + power_supplies[i]['description'] + "</td><td>" + power_supplies[i]['state'] + "</td></tr>\n"
+                    }
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Hardware health</strong>\n" +
+                        "</div>\n" +
+                        "<table class=\"table table-hover table-headings\">\n" +
+                        "<thead><tr><th>Type</th><th>Description</th><th>State</th></tr></thead>" +
+                        "<tbody>\n" +
+                        health_str +
+                        "</tbody>\n" +
+                        "</table>" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
+                }
 
                 /* sbc */
                 /* TODO*/
