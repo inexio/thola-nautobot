@@ -6,17 +6,19 @@ import sys
 import thola_client
 import thola_client.api.read_api as read
 import thola_client.rest as rest
+from django.conf import settings
 
 import thola_nautobot.thola.snmp_config as sc
-from thola_nautobot import config
 from thola_nautobot.thola.utils import normalize_ipv4
+
+PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 
 
 def read_available_data(thola_device):
     """Reads data from the available components set on a given thola device."""
     snmp_config = sc.from_thola_device(thola_device)
     host_ip = normalize_ipv4(str(thola_device.device.primary_ip4))
-    api_host = config.default_settings["thola_api"]
+    api_host = PLUGIN_SETTINGS["thola_api"]
     results = {}
     stderr = sys.stderr
     sys.stderr = None  # disable stderr during execution
@@ -45,7 +47,7 @@ def read_available_data(thola_device):
 
 def thola_read_available_components(snmp_config, primary_ip):
     """Executes thola read available-components on a given device."""
-    api_host = config.default_settings["thola_api"]
+    api_host = PLUGIN_SETTINGS["thola_api"]
     host_ip = normalize_ipv4(str(primary_ip))
     stderr = sys.stderr
     sys.stderr = None  # disable stderr during execution
