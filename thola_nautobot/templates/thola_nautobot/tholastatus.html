@@ -233,7 +233,54 @@
                 }
 
                 /* ups */
-                /* TODO*/
+                if (json['ups'] && json['ups']['error']) {
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>UPS</strong>\n" +
+                        "</div>\n" +
+                        "<div class=\"panel-body rendered-markdown\">\n" +
+                        "<span class=\"text-danger\">" + json['ups']['error'] + "</span>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
+                } else if (json['ups'] && json['ups']['ups']) {
+                    let main_voltage = json['ups']['ups']['mains_voltage_applied'] ? "<span class=\"mdi mdi-check-circle text-success\" title=\"True\"></span>" : "<span class=\"mdi mdi-close-circle text-danger\" title=\"False\"></span>"
+                    let battery_capacity = json['ups']['ups']['battery_capacity'] !== null ? json['ups']['ups']['battery_capacity'] : "<span class=\"text-muted\">-</span>"
+                    let battery_current = json['ups']['ups']['battery_current'] !== null ? json['ups']['ups']['battery_current'] : "<span class=\"text-muted\">-</span>"
+                    let battery_remaining_time = json['ups']['ups']['battery_remaining_time'] !== null ? json['ups']['ups']['battery_remaining_time'] : "<span class=\"text-muted\">-</span>"
+                    let battery_temperature = json['ups']['ups']['battery_temperature'] !== null ? json['ups']['ups']['battery_temperature'] : "<span class=\"text-muted\">-</span>"
+                    let battery_voltage = json['ups']['ups']['battery_voltage'] !== null ? json['ups']['ups']['battery_voltage'] : "<span class=\"text-muted\">-</span>"
+                    let current_load = json['ups']['ups']['current_load'] !== null ? json['ups']['ups']['current_load'] : "<span class=\"text-muted\">-</span>"
+                    let rectifier_current = json['ups']['ups']['rectifier_current'] !== null ? json['ups']['ups']['rectifier_current'] : "<span class=\"text-muted\">-</span>"
+                    let system_voltage = json['ups']['ups']['system_voltage'] !== null ? json['ups']['ups']['system_voltage'] : "<span class=\"text-muted\">-</span>"
+                    $('#status_row').append("" +
+                        "<div class=\"row\">" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>UPS</strong>\n" +
+                        "</div>\n" +
+                        "<table class=\"table table-hover panel-body attr-table\">\n" +
+                        "<tbody>\n" +
+                        "<tr><th>Main voltage applied</th><td>" + main_voltage + "</td></tr>\n" +
+                        "<tr><th>Battery capacity</th><td>" + battery_capacity + "</td></tr>\n" +
+                        "<tr><th>Battery current</th><td>" + battery_current + "</td></tr>\n" +
+                        "<tr><th>Battery remaining time</th><td>" + battery_remaining_time + "</td></tr>\n" +
+                        "<tr><th>Battery temperature</th><td>" + battery_temperature + "</td></tr>\n" +
+                        "<tr><th>Battery voltage</th><td>" + battery_voltage + "</td></tr>\n" +
+                        "<tr><th>Current load</th><td>" + current_load + "</td></tr>\n" +
+                        "<tr><th>Rectifier current</th><td>" + rectifier_current + "</td></tr>\n" +
+                        "<tr><th>System voltage</th><td>" + system_voltage + "</td></tr>\n" +
+                        "</tbody>\n" +
+                        "</table>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>")
+                }
 
                 /* server */
                 if (json['server'] && json['server']['error']) {
