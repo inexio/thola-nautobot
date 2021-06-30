@@ -1,10 +1,13 @@
 """Forms for thola nautobot."""
 from django import forms
+from django.conf import settings
 from nautobot.dcim.models import Device
 
 from thola_nautobot.models import TholaDevice
 from thola_nautobot.thola.client import thola_read_available_components
 from thola_nautobot.thola.snmp_config import SNMPConfig
+
+PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 
 
 class TholaDeviceForm(forms.ModelForm):
@@ -19,38 +22,39 @@ class TholaDeviceForm(forms.ModelForm):
     snmp_community = forms.CharField(
         required=False,
         label="SNMP community",
-        help_text="Community string for SNMP to use. (def: public)"
+        help_text="Community string for SNMP to use. (def: " + str(PLUGIN_SETTINGS["snmp_community"]) + ")"
     )
 
     snmp_version = forms.CharField(
         required=False,
         label="SNMP version",
-        help_text="SNMP version to use. (def: 2c)"
+        help_text="SNMP version to use. (def: " + str(PLUGIN_SETTINGS["snmp_version"]) + ")"
     )
 
     snmp_port = forms.IntegerField(
         required=False,
         label="SNMP port",
-        help_text="Port for SNMP to use. (def: 161)"
+        help_text="Port for SNMP to use. (def: " + str(PLUGIN_SETTINGS["snmp_port"]) + ")"
     )
 
     snmp_discover_par_requests = forms.IntegerField(
         required=False,
         label="SNMP discover par requests",
         help_text="The amount of parallel connection requests used while trying to get a valid SNMP connection. "
-                  "(def: 5)"
+                  "(def: " + str(PLUGIN_SETTINGS["snmp_discover_par_requests"]) + ")"
     )
 
     snmp_discover_retries = forms.IntegerField(
         required=False,
         label="SNMP discover retries",
-        help_text="The retries used while trying to get a valid SNMP connection. (def: 0)"
+        help_text="The retries used while trying to get a valid SNMP connection. (def: " + str(PLUGIN_SETTINGS["snmp_discover_retries"]) + ")"
     )
 
     snmp_discover_timeout = forms.IntegerField(
         required=False,
         label="SNMP discover timeout",
-        help_text="The timeout in seconds used while trying to get a valid SNMP connection. (def: 2)")
+        help_text="The timeout in seconds used while trying to get a valid SNMP connection. (def: " + str(PLUGIN_SETTINGS["snmp_discover_timeout"]) + ")"
+    )
 
     http_password = forms.CharField(
         required=False,

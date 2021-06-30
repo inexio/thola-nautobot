@@ -1,18 +1,21 @@
 """SNMP config for thola nautobot."""
 from thola_nautobot.models import TholaDevice
+from django.conf import settings
 
+
+PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 
 class SNMPConfig:
     """Class that stores snmp config."""
 
     def __init__(self, community, version, port, discover_retries, discover_timeout, discover_par_requests):
         """Create an snmp config."""
-        self.community = "public"
-        self.version = "2c"
-        self.port = 161
-        self.discover_retries = 0
-        self.discover_timeout = 2
-        self.discover_par_requests = 5
+        self.community = PLUGIN_SETTINGS["snmp_community"]
+        self.version = PLUGIN_SETTINGS["snmp_version"]
+        self.port = PLUGIN_SETTINGS["snmp_port"]
+        self.discover_retries = PLUGIN_SETTINGS["snmp_discover_retries"]
+        self.discover_timeout = PLUGIN_SETTINGS["snmp_discover_timeout"]
+        self.discover_par_requests = PLUGIN_SETTINGS["snmp_discover_par_requests"]
         if community is not None and community != "":
             self.community = community
         if version is not None and version != "":

@@ -16,14 +16,12 @@ class Thola(PluginConfig):
     author_email = 'nautobot@thola.io'
     default_settings = {
         'thola_api': 'http://localhost:8237',
-        'snmp_defaults': {
-            'community': 'public',
-            'version': '2c',
-            'port': 161,
-            'discover_par_requests': 5,
-            'discover_timeout': 2,
-            'discover_retries': 0
-        }
+        'snmp_community': 'public',
+        'snmp_version': '2c',
+        'snmp_port': 161,
+        'snmp_discover_par_requests': 5,
+        'snmp_discover_timeout': 2,
+        'snmp_discover_retries': 0
     }
 
 
