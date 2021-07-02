@@ -51,6 +51,7 @@ class TholaOnboarding(PrimaryModel):
 
     device = models.ForeignKey(to="dcim.Device", on_delete=models.CASCADE, null=True, blank=True, editable=False)
     ip = models.CharField(max_length=255, help_text="ip address of the device", null=False)
+    site = models.ForeignKey(to="dcim.Site", on_delete=models.CASCADE, null=False)
 
     # snmp properties of the device
     snmp_community = models.CharField(max_length=255, help_text="snmp community of the device", null=True)

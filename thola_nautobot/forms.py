@@ -1,7 +1,7 @@
 """Forms for thola nautobot."""
 from django import forms
 from django.conf import settings
-from nautobot.dcim.models import Device
+from nautobot.dcim.models import Device, Site
 
 from thola_nautobot.models import TholaDevice, TholaOnboarding
 from thola_nautobot.thola.client import thola_read_available_components
@@ -128,6 +128,12 @@ class TholaOnboardingForm(forms.ModelForm):
         help_text="IP address of the device."
     )
 
+    site = forms.ModelChoiceField(
+        queryset=Site.objects.all(),
+        required=True,
+        help_text="Site of the device."
+    )
+
     snmp_community = forms.CharField(
         required=False,
         label="SNMP community",
@@ -171,6 +177,7 @@ class TholaOnboardingForm(forms.ModelForm):
         model = TholaOnboarding
         fields = [
             "ip",
+            "site",
             "snmp_community",
             "snmp_version",
             "snmp_port",
