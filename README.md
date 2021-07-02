@@ -94,12 +94,12 @@ The plugin comes with 6 API endpoints.
 
 | Method | Route | Description |
 |---|---|---|
-| `GET` | `/plugins/thola_nautobot/tholadevice` | Returns list of all Thola configurations |
-| `POST` | `/plugins/thola_nautobot/tholadevice` | Creates a new Thola configuration |
-| `GET` | `/plugins/thola_nautobot/tholadevice/{id}` | Returns details of a given configuration |
-| `PUT` | `/plugins/thola_nautobot/tholadevice/{id}` | Updates a given Thola configuration |
-| `DELETE` | `/plugins/thola_nautobot/tholadevice/{id}` | Deletes a given Thola configuration |
-| `GET` | `/plugins/thola_nautobot/tholadevice/{id}/livedata` | Returns available live data for a given Thola device |
+| `GET` | `/plugins/thola_nautobot/config` | Returns list of all Thola configurations |
+| `POST` | `/plugins/thola_nautobot/config` | Creates a new Thola configuration |
+| `GET` | `/plugins/thola_nautobot/config/{id}` | Returns details of a given configuration |
+| `PUT` | `/plugins/thola_nautobot/config/{id}` | Updates a given Thola configuration |
+| `DELETE` | `/plugins/thola_nautobot/config/{id}` | Deletes a given Thola configuration |
+| `GET` | `/plugins/thola_nautobot/config/{id}/livedata` | Returns available live data for a given Thola device |
 
 ## Any questions?
 

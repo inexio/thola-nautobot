@@ -10,7 +10,7 @@
 <div class="row noprint">
     <div class="col">
         <ol class="breadcrumb">
-            <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
+            <li><a href="{% url 'plugins:thola_nautobot:tholaconfig_list' %}">Thola Configs</a></li>
             <li>{{ object.device.name }}</li>
         </ol>
     </div>
@@ -26,10 +26,10 @@
 </div>
 <ul class="nav nav-tabs">
     <li role="presentation" class="active">
-        <a href="{{ object.get_absolute_url }}">Thola Device</a>
+        <a href="{{ object.get_absolute_url }}">Thola Config</a>
     </li>
     <li role="presentation">
-        <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
+        <a href="{% url 'plugins:thola_nautobot:tholaconfig_status' pk=object.pk %}">Live Status</a>
     </li>
 </ul>
 {% endblock %}

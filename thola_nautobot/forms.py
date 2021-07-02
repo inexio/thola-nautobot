@@ -3,15 +3,15 @@ from django import forms
 from django.conf import settings
 from nautobot.dcim.models import Device, Site
 
-from thola_nautobot.models import TholaDevice, TholaOnboarding
+from thola_nautobot.models import TholaConfig, TholaOnboarding
 from thola_nautobot.thola.client import thola_read_available_components
 from thola_nautobot.thola.snmp_config import SNMPConfig
 
 PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 
 
-class TholaDeviceForm(forms.ModelForm):
-    """Form for creating a new Thola Device instance."""
+class TholaConfigForm(forms.ModelForm):
+    """Form for creating a new Thola Config instance."""
 
     device = forms.ModelChoiceField(
         queryset=Device.objects.all(),
@@ -83,7 +83,7 @@ class TholaDeviceForm(forms.ModelForm):
     )
 
     class Meta:
-        model = TholaDevice
+        model = TholaConfig
         fields = [
             "device",
             "snmp_community",

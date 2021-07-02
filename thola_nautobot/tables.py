@@ -3,20 +3,20 @@ import django_tables2 as tables
 
 from nautobot.utilities.tables import BaseTable, ToggleColumn
 
-from .models import TholaDevice, TholaOnboarding
+from .models import TholaConfig, TholaOnboarding
 
 
-class TholaDeviceTable(BaseTable):
-    """Table for thola devices."""
+class TholaConfigTable(BaseTable):
+    """Table for thola configs."""
 
     pk = ToggleColumn()
     id = tables.LinkColumn()
     device = tables.LinkColumn()
 
     class Meta(BaseTable.Meta):
-        """Meta for class TholaDeviceTable."""
+        """Meta for class TholaConfigTable."""
 
-        model = TholaDevice
+        model = TholaConfig
         fields = (
             "pk",
             "id",

@@ -14,9 +14,9 @@ from thola_nautobot.thola.utils import normalize_ipv4
 PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
 
 
-def read_available_data(thola_device):
-    """Reads data from the available components set on a given thola device."""
-    snmp_config = sc.from_thola_device(thola_device)
+def read_available_data(thola_config):
+    """Reads data from the available components set on a given thola config."""
+    snmp_config = sc.from_thola_config(thola_config)
 
     # check for correct snmp config
     wrong_config = "thola_nautobot config is incorrect | "
@@ -40,25 +40,25 @@ def read_available_data(thola_device):
             wrong_config += variable
         return {"error": wrong_config[0:len(wrong_config)-2]}
 
-    host_ip = normalize_ipv4(str(thola_device.device.primary_ip4))
+    host_ip = normalize_ipv4(str(thola_config.device.primary_ip4))
     api_host = PLUGIN_SETTINGS["thola_api"]
     results = {}
     stderr = sys.stderr
     sys.stderr = None  # disable stderr during execution
     try:
-        if thola_device.cpu:
+        if thola_config.cpu:
             results['cpu'] = thola_read_cpu_load(host_ip, snmp_config, api_host)
-        if thola_device.disk:
+        if thola_config.disk:
             results['disk'] = thola_read_disk(host_ip, snmp_config, api_host)
-        if thola_device.hardware_health:
+        if thola_config.hardware_health:
             results['hardware_health'] = thola_read_hardware_health(host_ip, snmp_config, api_host)
-        if thola_device.interfaces:
+        if thola_config.interfaces:
             results['interfaces'] = thola_read_interfaces(host_ip, snmp_config, api_host)
-        if thola_device.memory:
+        if thola_config.memory:
             results['memory'] = thola_read_memory_usage(host_ip, snmp_config, api_host)
-        if thola_device.server:
+        if thola_config.server:
             results['server'] = thola_read_server(host_ip, snmp_config, api_host)
-        if thola_device.ups:
+        if thola_config.ups:
             results['ups'] = thola_read_ups(host_ip, snmp_config, api_host)
     except urllib3.exceptions.MaxRetryError:
         return {"error": "Connection to Thola API couldn't be established"}

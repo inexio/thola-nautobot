@@ -4,10 +4,10 @@ from django.urls import reverse
 from nautobot.core.models.generics import PrimaryModel
 
 
-class TholaDevice(PrimaryModel):
+class TholaConfig(PrimaryModel):
     """
-    A Thola Device represents a special device that can be monitored by Thola. Each Thola Device is assigned a Device
-    (nautobot.dcim.models), snmp and http properties and its available components.
+    A Thola Config represents a configuration for a device that can be monitored by Thola. Each Thola Config is assigned
+    a Device (nautobot.dcim.models), snmp and http properties and its available components.
     """
 
     device = models.ForeignKey(to="dcim.Device", on_delete=models.CASCADE)
@@ -36,12 +36,12 @@ class TholaDevice(PrimaryModel):
     server = models.BooleanField(editable=False)
 
     def __str__(self):
-        """String representation of a Thola Device."""
+        """String representation of a Thola Config."""
         return super().__str__()
 
     def get_absolute_url(self):
-        """Provide absolute URL to a Thola Device."""
-        return reverse("plugins:thola_nautobot:tholadevice", args=[self.pk])
+        """Provide absolute URL to a Thola Config."""
+        return reverse("plugins:thola_nautobot:tholaconfig", args=[self.pk])
 
 
 class TholaOnboarding(PrimaryModel):
@@ -70,4 +70,3 @@ class TholaOnboarding(PrimaryModel):
     def get_absolute_url(self):
         """Provide absolute URL to a Thola Onboarding task."""
         return reverse("plugins:thola_nautobot:tholaonboarding", args=[self.pk])
-

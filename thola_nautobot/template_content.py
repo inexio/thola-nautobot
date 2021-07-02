@@ -1,7 +1,7 @@
 """Template extensions for thola nautobot."""
 from nautobot.extras.plugins import PluginTemplateExtension
 
-from thola_nautobot.models import TholaDevice
+from thola_nautobot.models import TholaConfig
 
 
 class DeviceStatusLink(PluginTemplateExtension):
@@ -10,16 +10,16 @@ class DeviceStatusLink(PluginTemplateExtension):
     model = "dcim.device"
 
     def right_page(self):
-        thola_device = TholaDevice.objects.filter(device=self.context["object"]).first()
+        thola_config = TholaConfig.objects.filter(device=self.context["object"]).first()
         device = self.context["object"]
 
-        if not thola_device:
+        if not thola_config:
             return self.render("thola_nautobot/device_extension_disabled.html", extra_context={
-                "add_url": "/plugins/thola_nautobot/tholadevice/add?device=" + device.name
+                "add_url": "/plugins/thola_nautobot/config/add?device=" + device.name
             })
 
         return self.render("thola_nautobot/device_extension.html", extra_context={
-            "thola_device": thola_device
+            "thola_config": thola_config
         })
 
 
