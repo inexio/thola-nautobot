@@ -15,4 +15,16 @@ menu_items = (
             ),
         ),
     ),
+    PluginMenuItem(
+        link="plugins:thola_nautobot:tholaonboarding_list",
+        link_text="Onboardings",
+        buttons=(
+            PluginMenuButton(
+                link="plugins:thola_nautobot:tholaonboarding_add",
+                title="Add",
+                icon_class="mdi mdi-plus-thick",
+                color=ButtonColorChoices.GREEN
+            ),
+        ),
+    ),
 )

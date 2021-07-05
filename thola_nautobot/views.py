@@ -104,4 +104,3 @@ class TholaOnboardingDeleteView(generic.ObjectDeleteView):
     """View for deleting a thola onboarding task."""
 
     queryset = models.TholaOnboarding.objects.all()
-

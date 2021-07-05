@@ -1,4 +1,5 @@
 """Forms for thola nautobot."""
+import django_rq
 from django import forms
 from django.conf import settings
 from nautobot.dcim.models import Device, Site
@@ -193,7 +194,9 @@ class TholaOnboardingForm(forms.ModelForm):
         snmp_config = SNMPConfig(model.snmp_community, model.snmp_version, model.snmp_port, model.snmp_discover_retries,
                                  model.snmp_discover_timeout, model.snmp_discover_par_requests)
 
-        # TODO query API to run the onboarding task
+        # TODO
+        queue = django_rq.get_queue('default')
+        queue.enqueue("thola_nautobot.worker.onboard_device", model.site.id, model.ip)
 
         model.save()
         return model

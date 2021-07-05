@@ -1,4 +1,5 @@
 """REST API views for thola nautobot."""
+import django_rq
 from django.shortcuts import get_object_or_404
 from nautobot.core.api.exceptions import ServiceUnavailable
 from rest_framework.decorators import action
@@ -6,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from thola_nautobot.thola.client import read_available_data
-from thola_nautobot.api.serializers import TholaConfigSerializer
-from thola_nautobot.models import TholaConfig
+from thola_nautobot.api.serializers import TholaConfigSerializer, TholaOnboardingSerializer
+from thola_nautobot.models import TholaConfig, TholaOnboarding
 
 
 class TholaConfigViews(ModelViewSet):
@@ -29,3 +30,21 @@ class TholaConfigViews(ModelViewSet):
             raise ServiceUnavailable(results.get('error'))
 
         return Response(results)
+
+
+class TholaOnboardingViews(ModelViewSet):
+    """API view for thola onboarding operations."""
+
+    queryset = TholaOnboarding.objects.all()
+    serializer_class = TholaOnboardingSerializer
+
+    @action(methods=['post'], detail=True, url_path="onboard")
+    def onboard(self, _, pk):
+        """Try to onboard a given onboarding task. If successful, set the status to 'success'."""
+        thola_onboarding = get_object_or_404(self.queryset, pk=pk)
+
+        queue = django_rq.get_queue('default')
+        queue.enqueue("thola_nautobot.worker.onboard_device", thola_onboarding.site.id, thola_onboarding.ip)
+
+        # TODO
+        return Response()
