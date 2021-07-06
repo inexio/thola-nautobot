@@ -17,7 +17,7 @@ class TholaConfigListView(generic.ObjectListView):
 
     queryset = models.TholaConfig.objects.all()
     table = tables.TholaConfigTable
-    action_buttons = {"add"}
+    template_name = "thola_nautobot/tholaconfig_list.html"
 
 
 class TholaConfigView(generic.ObjectView):
@@ -58,6 +58,14 @@ class TholaConfigDeleteView(generic.ObjectDeleteView):
     queryset = models.TholaConfig.objects.all()
 
 
+class TholaConfigBulkDeleteView(generic.BulkDeleteView):
+    """View for deleting many thola configs at once."""
+
+    queryset = models.TholaConfig.objects.filter()
+    table = tables.TholaConfigTable
+    default_return_url = "plugins:thola_nautobot:tholaconfig_list"
+
+
 class TholaConfigStatusView(generic.ObjectView):
     """Detailed view for live status of a thola config."""
 
@@ -82,7 +90,7 @@ class TholaOnboardingListView(generic.ObjectListView):
 
     queryset = models.TholaOnboarding.objects.all()
     table = tables.TholaOnboardingTable
-    action_buttons = {"add"}
+    template_name = "thola_nautobot/tholaonboarding_list.html"
 
 
 class TholaOnboardingView(generic.ObjectView):
@@ -104,3 +112,11 @@ class TholaOnboardingDeleteView(generic.ObjectDeleteView):
     """View for deleting a thola onboarding task."""
 
     queryset = models.TholaOnboarding.objects.all()
+
+
+class TholaOnboardingBulkDeleteView(generic.BulkDeleteView):
+    """View for deleting many thola onboarding tasks at once."""
+
+    queryset = models.TholaOnboarding.objects.filter()
+    table = tables.TholaOnboardingTable
+    default_return_url = "plugins:thola_nautobot:tholaonboarding_list"

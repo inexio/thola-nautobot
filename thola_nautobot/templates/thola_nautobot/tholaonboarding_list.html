@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load buttons %}
+
+{% block content %}
+<div class="pull-right noprint">
+    {% add_button 'plugins:thola_nautobot:tholaonboarding_add' %}
+</div>
+<h1>{% block title %}Thola Onboardings{% endblock %}</h1>
+<div class="row">
+    <div class="col-md-12">
+        {% include 'utilities/obj_table.html' with bulk_delete_url="plugins:thola_nautobot:tholaonboarding_bulkdelete" %}
+    </div>
+</div>
+{% endblock %}
