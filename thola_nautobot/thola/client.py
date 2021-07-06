@@ -5,6 +5,7 @@ import urllib3
 import sys
 import thola_client
 import thola_client.api.read_api as read
+import thola_client.api.identify_api as identify
 import thola_client.rest as rest
 from django.conf import settings
 
@@ -61,6 +62,7 @@ def read_available_data(thola_config):
         if thola_config.ups:
             results['ups'] = thola_read_ups(host_ip, snmp_config, api_host)
     except urllib3.exceptions.MaxRetryError:
+        sys.stderr = stderr  # enable stderr again
         return {"error": "Connection to Thola API couldn't be established"}
     sys.stderr = stderr  # enable stderr again
     return results
@@ -92,8 +94,10 @@ def thola_read_available_components(snmp_config, primary_ip):
     try:
         result_dict = read_api.read_available_components(body=body).to_dict()
     except rest.ApiException as e:
+        sys.stderr = stderr  # enable stderr again
         return json.loads(e.body)
     except urllib3.exceptions.MaxRetryError:
+        sys.stderr = stderr  # enable stderr again
         return {"error": "Connection to Thola API couldn't be established"}
     sys.stderr = stderr  # enable stderr again
     return result_dict
@@ -292,4 +296,38 @@ def thola_read_ups(host_ip, snmp_config: sc.SNMPConfig, api_host):
         return json.loads(e.body)
     except urllib3.exceptions.MaxRetryError as e:
         raise e
+    return result_dict
+
+
+def thola_identify(snmp_config, primary_ip):
+    api_host = PLUGIN_SETTINGS["thola_api"]
+    host_ip = normalize_ipv4(str(primary_ip))
+    stderr = sys.stderr
+    sys.stderr = None  # disable stderr during execution
+    body = thola_client.IdentifyRequest(
+        device_data=thola_client.DeviceData(
+            ip_address=host_ip,
+            connection_data=thola_client.ConnectionData(
+                snmp=thola_client.SNMPConnectionData(
+                    communities=[snmp_config.community],
+                    versions=[snmp_config.version],
+                    ports=[snmp_config.port],
+                    discover_retries=snmp_config.discover_retries,
+                    discover_timeout=snmp_config.discover_timeout,
+                    discover_parallel_requests=snmp_config.discover_par_requests
+                )
+            )
+        )
+    )
+    identify_api = identify.IdentifyApi()
+    identify_api.api_client.configuration.host = api_host
+    try:
+        result_dict = identify_api.identify(body=body).to_dict()
+    except rest.ApiException as e:
+        sys.stderr = stderr  # enable stderr again
+        return json.loads(e.body)
+    except urllib3.exceptions.MaxRetryError:
+        sys.stderr = stderr  # enable stderr again
+        return {"error": "Connection to Thola API couldn't be established"}
+    sys.stderr = stderr  # enable stderr again
     return result_dict
