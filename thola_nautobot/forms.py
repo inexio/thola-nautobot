@@ -4,6 +4,7 @@ from django import forms
 from django.conf import settings
 from nautobot.dcim.models import Device, Site
 
+from thola_nautobot.choices import TholaOnboardingStatusChoice
 from thola_nautobot.models import TholaConfig, TholaOnboarding
 from thola_nautobot.thola.client import thola_read_available_components
 from thola_nautobot.thola.snmp_config import SNMPConfig
@@ -193,6 +194,8 @@ class TholaOnboardingForm(forms.ModelForm):
 
         snmp_config = SNMPConfig(model.snmp_community, model.snmp_version, model.snmp_port, model.snmp_discover_retries,
                                  model.snmp_discover_timeout, model.snmp_discover_par_requests)
+
+        model.status = TholaOnboardingStatusChoice.STATUS_PENDING
 
         # TODO
         queue = django_rq.get_queue('default')
