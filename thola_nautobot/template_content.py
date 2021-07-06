@@ -12,10 +12,13 @@ class DeviceStatusLink(PluginTemplateExtension):
     def right_page(self):
         thola_config = TholaConfig.objects.filter(device=self.context["object"]).first()
         device = self.context["object"]
-
+        if not device.name:
+            device_name = ""
+        else:
+            device_name = device.name
         if not thola_config:
             return self.render("thola_nautobot/device_extension_disabled.html", extra_context={
-                "add_url": "/plugins/thola_nautobot/config/add?device=" + device.name
+                "add_url": "/plugins/thola_nautobot/config/add?device=" + device_name
             })
 
         return self.render("thola_nautobot/device_extension.html", extra_context={

@@ -203,10 +203,8 @@ class TholaOnboardingForm(forms.ModelForm):
                                  model.snmp_discover_timeout, model.snmp_discover_par_requests)
 
         model.status = TholaOnboardingStatusChoice.STATUS_PENDING
-
-        # TODO
-        queue = django_rq.get_queue('default')
-        queue.enqueue("thola_nautobot.worker.onboard_device", model.site.id, model.ip)
-
         model.save()
+
+        queue = django_rq.get_queue('default')
+        queue.enqueue("thola_nautobot.worker.onboard_device", onboarding=model)
         return model
