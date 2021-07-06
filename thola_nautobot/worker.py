@@ -51,6 +51,7 @@ def onboard_device(onboarding):
             # TODO Set fail_message (if later implemented)
             return
         class_name = properties["_class"]
+        class_name = class_name.replace("/", "_")
         if properties["properties"]["vendor"] is None:
             onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
             onboarding.save()
