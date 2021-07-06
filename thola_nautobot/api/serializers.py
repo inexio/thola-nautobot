@@ -1,5 +1,5 @@
 """REST API serializers for thola nautobot."""
-from nautobot.dcim.api.serializers import DeviceSerializer, SiteSerializer
+from nautobot.dcim.api.serializers import DeviceSerializer, SiteSerializer, DeviceRoleSerializer
 from rest_framework import serializers
 from thola_nautobot.models import TholaConfig, TholaOnboarding
 
@@ -23,10 +23,11 @@ class TholaOnboardingSerializer(serializers.ModelSerializer):
 
     device = DeviceSerializer
     site = SiteSerializer
+    role = DeviceRoleSerializer
 
     class Meta:
         """Meta class for TholaOnboardingSerializer."""
 
         model = TholaOnboarding
-        fields = ["id", "device", "ip", "site", "snmp_community", "snmp_version", "snmp_port",
+        fields = ["id", "device", "ip", "site", "role", "snmp_community", "snmp_version", "snmp_port",
                   "snmp_discover_par_requests", "snmp_discover_retries", "snmp_discover_timeout", "status"]

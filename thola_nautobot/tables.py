@@ -37,6 +37,7 @@ class TholaOnboardingTable(BaseTable):
     pk = ToggleColumn()
     id = tables.LinkColumn()
     site = tables.LinkColumn()
+    role = tables.LinkColumn()
 
     class Meta(BaseTable.Meta):
         """Meta for class TholaOnboardingTable."""
@@ -47,6 +48,7 @@ class TholaOnboardingTable(BaseTable):
             "id",
             "ip",
             "site",
+            "role",
             "snmp_community",
             "snmp_version",
             "snmp_port",

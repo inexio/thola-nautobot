@@ -2,7 +2,7 @@
 import django_rq
 from django import forms
 from django.conf import settings
-from nautobot.dcim.models import Device, Site
+from nautobot.dcim.models import Device, Site, DeviceRole
 
 from thola_nautobot.choices import TholaOnboardingStatusChoice
 from thola_nautobot.models import TholaConfig, TholaOnboarding
@@ -136,6 +136,12 @@ class TholaOnboardingForm(forms.ModelForm):
         help_text="Site of the device."
     )
 
+    role = forms.ModelChoiceField(
+        queryset=DeviceRole.objects.all(),
+        required=True,
+        help_text="Role of the device."
+    )
+
     snmp_community = forms.CharField(
         required=False,
         label="SNMP community",
@@ -180,6 +186,7 @@ class TholaOnboardingForm(forms.ModelForm):
         fields = [
             "ip",
             "site",
+            "role",
             "snmp_community",
             "snmp_version",
             "snmp_port",
