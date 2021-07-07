@@ -65,9 +65,12 @@ def onboard_device(onboarding):
                                                  description="Automatically created with Thola")
         device_type = DeviceType.objects.create(manufacturer=vendor, model=model_name, slug=class_name, u_height=1,
                                                 comments="Automatically created with Thola")
+    serial_number = None
+    if properties["properties"]["serial_number"] is not None:
+        serial_number = properties["properties"]["serial_number"]
     device_role = onboarding.role
     status = Status.objects.get(name="Active")
-    Device.objects.create(device_role=device_role, device_type=device_type, site=site, status=status)
+    Device.objects.create(device_role=device_role, device_type=device_type, site=site, status=status, serial=serial_number)
     onboarding.status = TholaOnboardingStatusChoice.STATUS_SUCCESS
     onboarding.error_message = None
     onboarding.save()
