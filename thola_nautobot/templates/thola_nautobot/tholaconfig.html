@@ -4,7 +4,13 @@
 {% load custom_links %}
 {% load helpers %}
 
-{% block title %}{{ object.device.name }} Thola{% endblock %}
+{% block title %}
+{% if object.device.name == None %}
+        Thola Config
+    {% else %}
+        {{object.device.name}} Thola
+    {% endif %}
+{% endblock %}
 
 {% block header %}
 <div class="row noprint">
@@ -19,8 +25,14 @@
     {% edit_button object use_pk=1 %}
     {% delete_button object use_pk=1 %}
 </div>
-<h1>{{ object.device.name }} Thola</h1>
-{% include 'inc/created_updated.html' %}
+<h1>
+    {% if object.device.name == None %}
+        {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+    {% else %}
+        {{object.device.name}}
+    {% endif %} Thola
+</h1>
+    {% include 'inc/created_updated.html' %}
 <div class="pull-right noprint">
     {% custom_links object %}
 </div>
@@ -44,7 +56,13 @@
             <table class="table table-hover panel-body attr-table">
                 <tr>
                     <td>Name</td>
-                    <td><a href="{{ object.device.get_absolute_url }}">{{ object.device.name }}</a></td>
+                    <td><a href="{{ object.device.get_absolute_url }}">
+                        {% if object.device.name == None %}
+                            {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+                        {% else %}
+                            {{object.device.name}}
+                        {% endif %}
+                    </a></td>
                 </tr>
                 <tr>
                     <td>Primary IP</td>

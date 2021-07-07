@@ -4,7 +4,13 @@
 {% load custom_links %}
 {% load helpers %}
 
-{% block title %}{{ object.device.name }} Live Status{% endblock %}
+{% block title %}
+{% if object.device.name == None %}
+        Thola Config Status
+    {% else %}
+        {{object.device.name}} Status
+    {% endif %}
+{% endblock %}
 
 {% block header %}
 <div class="row noprint">
@@ -19,7 +25,13 @@
     {% edit_button object use_pk=1 %}
     {% delete_button object use_pk=1 %}
 </div>
-<h1>{{ object.device.name }} Live Status</h1>
+<h1>
+    {% if object.device.name == None %}
+        {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+    {% else %}
+        {{object.device.name}}
+    {% endif %} Live Status
+</h1>
 {% include 'inc/created_updated.html' %}
 <div class="pull-right noprint">
     {% custom_links object %}
