@@ -1,7 +1,10 @@
 """Models for thola nautobot."""
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from nautobot.core.models.generics import PrimaryModel
+
+from thola_nautobot.thola.utils import is_ipv4
 
 
 class TholaConfig(PrimaryModel):
@@ -72,3 +75,10 @@ class TholaOnboarding(PrimaryModel):
     def get_absolute_url(self):
         """Provide absolute URL to a Thola Onboarding task."""
         return reverse("plugins:thola_nautobot:tholaonboarding", args=[self.pk])
+
+    def clean(self):
+        if not is_ipv4(self.ip):
+            # Enforce that the ip is a valid ipv4
+            raise ValidationError({
+                "ip": "IP must be a valid IPv4 address (including CIDR mask)"
+            })

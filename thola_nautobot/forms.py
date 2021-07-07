@@ -199,9 +199,6 @@ class TholaOnboardingForm(forms.ModelForm):
         """Save the model and the associated components."""
         model = super().save(commit=False)
 
-        snmp_config = SNMPConfig(model.snmp_community, model.snmp_version, model.snmp_port, model.snmp_discover_retries,
-                                 model.snmp_discover_timeout, model.snmp_discover_par_requests)
-
         model.status = TholaOnboardingStatusChoice.STATUS_PENDING
         model.save()
 
