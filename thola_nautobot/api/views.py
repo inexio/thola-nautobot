@@ -44,7 +44,7 @@ class TholaOnboardingViews(ModelViewSet):
         thola_onboarding = get_object_or_404(self.queryset, pk=pk)
 
         queue = django_rq.get_queue('default')
-        queue.enqueue("thola_nautobot.worker.onboard_device", thola_onboarding.site.id, thola_onboarding.ip)
+        queue.enqueue("thola_nautobot.worker.onboard_device", thola_onboarding)
 
         # TODO
         return Response()

@@ -99,6 +99,13 @@ class TholaOnboardingView(generic.ObjectView):
     queryset = models.TholaOnboarding.objects.all()
     template_name = "thola_nautobot/tholaonboarding.html"
 
+    def get_extra_context(self, request, instance):
+        """Add extra data to detail view of a thola onboarding."""
+
+        return {
+            "onboard_url": "/api/plugins/thola_nautobot/onboarding/{}/onboard/".format(instance.pk)
+        }
+
 
 class TholaOnboardingEditView(generic.ObjectEditView):
     """View for editing a thola onboarding task."""
