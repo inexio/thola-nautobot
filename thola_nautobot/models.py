@@ -53,6 +53,7 @@ class TholaOnboarding(PrimaryModel):
     ip = models.CharField(max_length=255, help_text="ip address of the device", null=False)
     site = models.ForeignKey(to="dcim.Site", on_delete=models.CASCADE, null=False)
     role = models.ForeignKey(to="dcim.DeviceRole", on_delete=models.CASCADE, null=False)
+    error_message = models.TextField(help_text="Error message, when onboarding failed", null=True)
 
     # snmp properties of the device
     snmp_community = models.CharField(max_length=255, help_text="snmp community of the device", null=True)

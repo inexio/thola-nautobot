@@ -28,13 +28,13 @@ def onboard_device(onboarding):
     properties = thola_identify(snmp_config, primary_ip)
     if "error" in properties.keys():
         onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
+        onboarding.error_message = properties["error"]
         onboarding.save()
-        # TODO Set fail_message (if later implemented)
         return
     if properties["properties"]["model"] is None:
         onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
+        onboarding.error_message = "Thola couldn't find a model for the device"
         onboarding.save()
-        # TODO Set fail_message (if later implemented)
         return
     model_name = properties["properties"]["model"]
     try:
@@ -42,20 +42,20 @@ def onboard_device(onboarding):
     except ObjectDoesNotExist:
         if not PLUGIN_SETTINGS["onboarding_create_models"]:
             onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
+            onboarding.error_message = "The plugin's settings don't allow to create new device types / manufacturers"
             onboarding.save()
-            # TODO Set fail_message (if later implemented)
             return
         if properties["_class"] is None:
             onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
+            onboarding.error_message = "Thola didn't return a device class"
             onboarding.save()
-            # TODO Set fail_message (if later implemented)
             return
         class_name = properties["_class"]
         class_name = class_name.replace("/", "_")
         if properties["properties"]["vendor"] is None:
             onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
+            onboarding.error_message = "Thola couldn't find the vendor of the device"
             onboarding.save()
-            # TODO Set fail_message (if later implemented)
             return
         vendor_name = properties["properties"]["vendor"]
         try:
@@ -69,4 +69,5 @@ def onboard_device(onboarding):
     status = Status.objects.get(name="Active")
     Device.objects.create(device_role=device_role, device_type=device_type, site=site, status=status)
     onboarding.status = TholaOnboardingStatusChoice.STATUS_SUCCESS
+    onboarding.error_message = None
     onboarding.save()

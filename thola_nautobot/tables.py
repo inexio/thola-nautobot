@@ -52,5 +52,6 @@ class TholaOnboardingTable(BaseTable):
             "snmp_community",
             "snmp_version",
             "snmp_port",
-            "status"
+            "status",
+            "error_message"
         )
