@@ -85,6 +85,12 @@ def onboard_device(onboarding):
     device = Device.objects.create(device_role=device_role, device_type=device_type, site=site, status=status,
                                    serial=serial_number)
 
+    # set device name if enabled
+    if PLUGIN_SETTINGS["onboarding_device_name"]:
+        name = create_name(device_type.manufacturer.name, serial_number, primary_ip)
+        device.name = name
+        device.save()
+
     # create ipaddress
     try:
         ip_address = IPAddress.objects.get(host=normalize_ipv4(primary_ip))
@@ -136,3 +142,10 @@ def create_thola_config(snmp_config, device):
                                snmp_discover_timeout=snmp_config.discover_timeout,
                                interfaces=interfaces, cpu=cpu, memory=memory, disk=disk,
                                hardware_health=hardware_health, ups=ups, server=server)
+
+
+def create_name(vendor, serial_number, primary_ip):
+    """Create a name for a device based on vendor, model, serial_number and ip."""
+    if serial_number:
+        return vendor[:2].upper() + serial_number
+    return vendor[:2].upper() + primary_ip

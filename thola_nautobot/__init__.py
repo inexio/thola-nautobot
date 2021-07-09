@@ -22,7 +22,8 @@ class Thola(PluginConfig):
         'snmp_discover_par_requests': 5,
         'snmp_discover_timeout': 2,
         'snmp_discover_retries': 0,
-        'onboarding_create_models': True
+        'onboarding_create_models': True,
+        'onboarding_device_name': True
     }
 
 
