@@ -64,6 +64,27 @@ If successful, you find an overview over all components that you can monitor on 
 
 Now you can inspect the live status of your device by clicking on the `Live Status` tab. This shows the status of all available components for your device.
 
+## Onboarding
+
+Thola can be used to identify new devices and automatically add them to Nautobot. All you need is SNMP access to the device. Thola will then create a new device with the corresponding type and manufacturer.
+
+Now we create our first onboarding task. In your navigation bar, go to `Plugins` and then look for `Thola Nautobot` / `Onboardings`. Click on the `+` to create a new onboarding task.
+
+<img src="docs/img/create_onboarding.png" alt="">
+
+Here you can specify the IP address of the device that you want to add to Nautobot as well as the SNMP credentials. Also you need to select the site and a role for the device.
+
+By clicking on `Create`, you add the onboarding task to a queue. Thola_nautobot uses Nautobot's rqworker to process the tasks. Normally this doesn't take too long so refresh the page a few times.
+
+<img src="docs/img/onboarding_success.png" alt="">
+
+Once the task was successful, you can easily delete it. We onboarded our first device with Thola.
+
+<img src="docs/img/onboarded_device.png" alt="">
+
+As you can see, Thola identified the manufacturer and model of the device and set the device type accordingly. There is no need to create a type or vendor in advance since Thola automatically does this for you.
+Furthermore, Thola assigned a name based on the device's serial number or IP. However, if you want to name the devices by hand you can disable that feature.
+
 ## Plugin Config
 
 As stated before nautobot has a config file, where plugin parameters can be set:
@@ -87,10 +108,12 @@ For thola_nautbot all parameters are optional. If a parameter is not set, the pl
 | `snmp_discover_par_requests` | Default amount of parallel connection requests used while trying to get a valid SNMP connection | Integer | `5` |
 | `snmp_discover_timeout` | Default timeout in seconds used while trying to get a valid SNMP connection | Integer | `2` |
 | `snmp_discover_retries` | Default number of retries used while trying to get a valid SNMP connection | Integer | `0` |
+| `onboarding_create_models` | If true, Thola will create device types and manufacturers for onboarded devices | Boolean | `True` |
+| `onboarding_device_name` | If true, Thola will automatically add names to onboarded devices | Boolean | `True` |
 
 ## API
 
-The plugin comes with 6 API endpoints.
+The plugin comes with several API endpoints.
 
 | Method | Route | Description |
 |---|---|---|
@@ -100,6 +123,12 @@ The plugin comes with 6 API endpoints.
 | `PUT` | `/plugins/thola_nautobot/config/{id}` | Updates a given Thola configuration |
 | `DELETE` | `/plugins/thola_nautobot/config/{id}` | Deletes a given Thola configuration |
 | `GET` | `/plugins/thola_nautobot/config/{id}/livedata` | Returns available live data for a given Thola device |
+| `GET` | `/plugins/thola_nautobot/onboarding` | Returns list of all Thola onboarding tasks |
+| `POST` | `/plugins/thola_nautobot/onboarding` | Creates a new Thola onboarding task |
+| `GET` | `/plugins/thola_nautobot/onboarding/{id}` | Returns details of a given onboarding task |
+| `PUT` | `/plugins/thola_nautobot/onboarding/{id}` | Updates a given Thola onboarding task |
+| `DELETE` | `/plugins/thola_nautobot/onboarding/{id}` | Deletes a given Thola onboarding task |
+| `GET` | `/plugins/thola_nautobot/onboarding/{id}/onboard` | Queue a run for a given onboarding task |
 
 ## Any questions?
 
@@ -107,4 +136,4 @@ Feel free to look at the [main repository](https://github.com/inexio/thola) of T
 
 ### Missing a device?
 
-If you run a device that Thola doesn't support yet, check out our [documentation](https://docs.thola.io/adding-device/writing-device-classes/). There you find a full explanation on how to add a new device type into Thola. We are happy to see your pull requests!
+If you run a device that Thola doesn't support yet, check out our [documentation](https://docs.thola.io/adding-device/writing-device-classes/). There you find a full explanation on how to add a new device type into Thola. We are happy to see your contributions!
