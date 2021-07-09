@@ -48,7 +48,7 @@ def onboard_device(onboarding):
     try:
         device_type = DeviceType.objects.get(model=model_name)
     except ObjectDoesNotExist:
-        if not PLUGIN_SETTINGS["onboarding_create_models"]:
+        if not bool(PLUGIN_SETTINGS["onboarding_create_models"]):
             onboarding.status = TholaOnboardingStatusChoice.STATUS_FAILED
             onboarding.error_message = "The plugin's settings don't allow to create new device types / manufacturers"
             onboarding.save()
@@ -83,11 +83,12 @@ def onboard_device(onboarding):
     # retrieve serial number
     serial_number = None
     if properties["properties"]["serial_number"] is not None:
-        device.serial = properties["properties"]["serial_number"]
+        serial_number = properties["properties"]["serial_number"]
+        device.serial = serial_number
         device.save()
 
     # set device name if enabled
-    if PLUGIN_SETTINGS["onboarding_device_name"]:
+    if bool(PLUGIN_SETTINGS["onboarding_device_name"]):
         name = create_name(device_type.manufacturer.name, serial_number, primary_ip)
         device.name = name
         device.save()
@@ -147,6 +148,6 @@ def create_thola_config(snmp_config, device):
 
 def create_name(vendor, serial_number, primary_ip):
     """Create a name for a device based on vendor, model, serial_number and ip."""
-    if serial_number:
+    if serial_number is not None:
         return vendor[:2].upper() + serial_number
     return vendor[:2].upper() + normalize_ipv4(primary_ip)
