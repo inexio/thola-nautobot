@@ -1,4 +1,6 @@
 # Thola Nautobot
+![build](https://github.com/inexio/thola-nautobot/actions/workflows/python-package.yml/badge.svg)
+
 The Integration of [Thola](https://github.com/inexio/thola) into [Nautobot](https://github.com/nautobot/nautobot)
 
 Thola is a unified interface for communication with network devices. You can use it to retrieve live information of your network devices, independent of their vendor, type or model.
