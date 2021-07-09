@@ -6,10 +6,10 @@
 
 {% block title %}
 {% if object.device.name == None %}
-        Thola Config
-    {% else %}
-        {{object.device.name}} Thola
-    {% endif %}
+Thola Config
+{% else %}
+{{object.device.name}} Thola
+{% endif %}
 {% endblock %}
 
 {% block header %}
@@ -27,12 +27,12 @@
 </div>
 <h1>
     {% if object.device.name == None %}
-        {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+    {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
     {% else %}
-        {{object.device.name}}
+    {{object.device.name}}
     {% endif %} Thola
 </h1>
-    {% include 'inc/created_updated.html' %}
+{% include 'inc/created_updated.html' %}
 <div class="pull-right noprint">
     {% custom_links object %}
 </div>
@@ -58,9 +58,9 @@
                     <td>Name</td>
                     <td><a href="{{ object.device.get_absolute_url }}">
                         {% if object.device.name == None %}
-                            {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+                        {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
                         {% else %}
-                            {{object.device.name}}
+                        {{object.device.name}}
                         {% endif %}
                     </a></td>
                 </tr>
@@ -160,7 +160,7 @@
                 </tr>
                 <tr>
                     <td>HTTPS Port</td>
-                     {% if object.https_port %}
+                    {% if object.https_port %}
                     <td>{{ object.https_port }}</td>
                     {% else %}
                     <td><span class="text-muted">-</span></td>

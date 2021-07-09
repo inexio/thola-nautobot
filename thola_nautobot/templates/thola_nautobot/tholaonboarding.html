@@ -150,31 +150,30 @@
                 </tr>
                 {% endif %}
             </table>
-            {% if object.status == "success" %}
-            <div class="panel-footer text-left noprint">
+            <div class="panel-footer noprint">
+                {% if object.status == "success" or object.status == "warning" %}
                 <a href="{% url 'plugins:thola_nautobot:tholaonboarding_delete' pk=object.pk %}"
                    class="btn btn-success btn-xs">
                     <span class="mdi mdi-trash-can" aria-hidden="true"></span>
                     Delete Onboarding
                 </a>
-            </div>
-            {% elif object.status == "failed" %}
-            <div class="panel-footer text-left noprint">
-                <form action="{{ onboard_url }}" method="post" id="refreshForm">
+                {% endif %}
+                {% if object.status == "warning" or object.status == "failed" %}
+                <form action="{{ onboard_url }}" method="post" id="refreshForm" style="display: inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary btn-xs">
                         <span class="mdi mdi-refresh" aria-hidden="true"></span>
                         Rerun
                     </button>
                 </form>
+                {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %}
 
-{% if object.status == "failed" %}
+{% if object.status == "failed" or object.status == "warning" %}
 {% block javascript %}
 <script>
     document.getElementById('refreshForm').addEventListener('submit', async function (e) {

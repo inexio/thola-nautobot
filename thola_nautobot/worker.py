@@ -149,4 +149,4 @@ def create_name(vendor, serial_number, primary_ip):
     """Create a name for a device based on vendor, model, serial_number and ip."""
     if serial_number:
         return vendor[:2].upper() + serial_number
-    return vendor[:2].upper() + primary_ip
+    return vendor[:2].upper() + normalize_ipv4(primary_ip)

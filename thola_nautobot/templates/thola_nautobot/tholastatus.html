@@ -6,10 +6,10 @@
 
 {% block title %}
 {% if object.device.name == None %}
-        Thola Config Status
-    {% else %}
-        {{object.device.name}} Status
-    {% endif %}
+Thola Config Status
+{% else %}
+{{object.device.name}} Status
+{% endif %}
 {% endblock %}
 
 {% block header %}
@@ -27,9 +27,9 @@
 </div>
 <h1>
     {% if object.device.name == None %}
-        {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+    {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
     {% else %}
-        {{object.device.name}}
+    {{object.device.name}}
     {% endif %} Live Status
 </h1>
 {% include 'inc/created_updated.html' %}
@@ -84,19 +84,19 @@
                     }
                     $('#status_row').append("" +
                         "<div class=\"row\">" +
-                            "<div class=\"col-md-6\">\n" +
-                                "<div class=\"panel panel-default\">\n" +
-                                    "<div class=\"panel-heading\">\n" +
-                                        "<strong>Interfaces</strong>\n" +
-                                    "</div>\n" +
-                                    "<table class=\"table table-hover table-headings\">\n" +
-                                        "<thead><tr><th>Description</th><th>Physical address</th><th>Admin status</th><th>Op status</th></tr></thead>" +
-                                        "<tbody>\n" +
-                                            interface_str +
-                                        "</tbody>\n" +
-                                    "</table>\n" +
-                                "</div>\n" +
-                            "</div>\n" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Interfaces</strong>\n" +
+                        "</div>\n" +
+                        "<table class=\"table table-hover table-headings\">\n" +
+                        "<thead><tr><th>Description</th><th>Physical address</th><th>Admin status</th><th>Op status</th></tr></thead>" +
+                        "<tbody>\n" +
+                        interface_str +
+                        "</tbody>\n" +
+                        "</table>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
                         "</div>")
                 }
 
@@ -216,7 +216,7 @@
                         "</div>\n" +
                         "</div>\n" +
                         "</div>")
-                } else if(json['hardware_health']) {
+                } else if (json['hardware_health']) {
                     let fans = json['hardware_health']['fans']
                     let health_str = ""
                     for (let i = 0; i < fans.length; i++) {
