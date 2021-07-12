@@ -59,7 +59,7 @@ def onboard_device(onboarding):
             onboarding.save()
             return
         class_name = properties["_class"]
-        class_name = class_name.replace("/", "_")
+        class_name = class_name.replace("/", "-")
 
         # retrieve manufacturer
         if properties["properties"]["vendor"] is None:
@@ -71,7 +71,7 @@ def onboard_device(onboarding):
         try:
             vendor = Manufacturer.objects.get(name=vendor_name)
         except ObjectDoesNotExist:
-            vendor = Manufacturer.objects.create(name=vendor_name, slug=vendor_name.lower(),
+            vendor = Manufacturer.objects.create(name=vendor_name, slug=vendor_name.lower().replace(" ", "-"),
                                                  description="Automatically created with Thola")
         device_type = DeviceType.objects.create(manufacturer=vendor, model=model_name, slug=class_name, u_height=1,
                                                 comments="Automatically created with Thola")
@@ -124,7 +124,6 @@ def onboard_device(onboarding):
 
 def create_thola_config(snmp_config, device):
     """Create a TholaConfig with the given snmp_config. Set the components accordingly."""
-
     components = thola_read_available_components(snmp_config, device.primary_ip4)
     if components.get('error'):
         raise RuntimeError(components.get('error'))
