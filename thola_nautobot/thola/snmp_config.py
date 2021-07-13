@@ -1,9 +1,9 @@
 """SNMP config for thola nautobot."""
-from thola_nautobot.models import TholaDevice
+from thola_nautobot.models import TholaConfig
 from django.conf import settings
 
-
 PLUGIN_SETTINGS = settings.PLUGINS_CONFIG["thola_nautobot"]
+
 
 class SNMPConfig:
     """Class that stores snmp config."""
@@ -30,9 +30,9 @@ class SNMPConfig:
             self.discover_par_requests = discover_par_requests
 
 
-def from_thola_device(thola_device: TholaDevice) -> SNMPConfig:
+def from_thola_config(thola_config: TholaConfig) -> SNMPConfig:
     """Returns a new instance of an snmp config."""
 
-    return SNMPConfig(thola_device.snmp_community, thola_device.snmp_version, thola_device.snmp_port,
-                      thola_device.snmp_discover_retries, thola_device.snmp_discover_timeout,
-                      thola_device.snmp_discover_par_requests)
+    return SNMPConfig(thola_config.snmp_community, thola_config.snmp_version, thola_config.snmp_port,
+                      thola_config.snmp_discover_retries, thola_config.snmp_discover_timeout,
+                      thola_config.snmp_discover_par_requests)

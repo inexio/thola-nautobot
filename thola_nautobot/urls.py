@@ -5,11 +5,20 @@ from django.urls import path
 app_name = "thola"
 
 urlpatterns = [
-    # THOLA device
-    path("tholadevice/", views.TholaDeviceListView.as_view(), name="tholadevice_list"),
-    path("tholadevice/add/", views.TholaDeviceEditView.as_view(), name="tholadevice_add"),
-    path("tholadevice/<uuid:pk>/", views.TholaDeviceView.as_view(), name="tholadevice"),
-    path("tholadevice/<uuid:pk>/edit/", views.TholaDeviceEditView.as_view(), name="tholadevice_edit"),
-    path("tholadevice/<uuid:pk>/delete/", views.TholaDeviceDeleteView.as_view(), name="tholadevice_delete"),
-    path("tholadevice/<uuid:pk>/status/", views.TholaDeviceStatusView.as_view(), name="tholadevice_status")
+    # THOLA config
+    path("config/", views.TholaConfigListView.as_view(), name="tholaconfig_list"),
+    path("config/add/", views.TholaConfigEditView.as_view(), name="tholaconfig_add"),
+    path("config/delete/", views.TholaConfigBulkDeleteView.as_view(), name="tholaconfig_bulkdelete"),
+    path("config/<uuid:pk>/", views.TholaConfigView.as_view(), name="tholaconfig"),
+    path("config/<uuid:pk>/edit/", views.TholaConfigEditView.as_view(), name="tholaconfig_edit"),
+    path("config/<uuid:pk>/delete/", views.TholaConfigDeleteView.as_view(), name="tholaconfig_delete"),
+    path("config/<uuid:pk>/status/", views.TholaConfigStatusView.as_view(), name="tholaconfig_status"),
+
+    # THOLA onboarding
+    path("onboarding/", views.TholaOnboardingListView.as_view(), name="tholaonboarding_list"),
+    path("onboarding/add/", views.TholaOnboardingEditView.as_view(), name="tholaonboarding_add"),
+    path("onboarding/delete/", views.TholaOnboardingBulkDeleteView.as_view(), name="tholaonboarding_bulkdelete"),
+    path("onboarding/<uuid:pk>/", views.TholaOnboardingView.as_view(), name="tholaonboarding"),
+    path("onboarding/<uuid:pk>/edit/", views.TholaOnboardingEditView.as_view(), name="tholaonboarding_edit"),
+    path("onboarding/<uuid:pk>/delete/", views.TholaOnboardingDeleteView.as_view(), name="tholaonboarding_delete")
 ]

@@ -4,13 +4,19 @@
 {% load custom_links %}
 {% load helpers %}
 
-{% block title %}{{ object.device.name }} Live Status{% endblock %}
+{% block title %}
+{% if object.device.name == None %}
+Thola Config Status
+{% else %}
+{{object.device.name}} Status
+{% endif %}
+{% endblock %}
 
 {% block header %}
 <div class="row noprint">
-    <div class="col">
+    <div class="col-md-12">
         <ol class="breadcrumb">
-            <li><a href="{% url 'plugins:thola_nautobot:tholadevice_list' %}">Thola Devices</a></li>
+            <li><a href="{% url 'plugins:thola_nautobot:tholaconfig_list' %}">Thola Configs</a></li>
             <li>{{ object.device.name }}</li>
         </ol>
     </div>
@@ -19,17 +25,23 @@
     {% edit_button object use_pk=1 %}
     {% delete_button object use_pk=1 %}
 </div>
-<h1>{{ object.device.name }} Live Status</h1>
+<h1>
+    {% if object.device.name == None %}
+    {{object.device.device_type.manufacturer.name}} {{object.device.device_type.model}}
+    {% else %}
+    {{object.device.name}}
+    {% endif %} Live Status
+</h1>
 {% include 'inc/created_updated.html' %}
 <div class="pull-right noprint">
     {% custom_links object %}
 </div>
 <ul class="nav nav-tabs">
     <li role="presentation">
-        <a href="{{ object.get_absolute_url }}">Thola Device</a>
+        <a href="{{ object.get_absolute_url }}">Thola Config</a>
     </li>
     <li role="presentation" class="active">
-        <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=object.pk %}">Live Status</a>
+        <a href="{% url 'plugins:thola_nautobot:tholaconfig_status' pk=object.pk %}">Live Status</a>
     </li>
 </ul>
 {% endblock %}
@@ -72,19 +84,19 @@
                     }
                     $('#status_row').append("" +
                         "<div class=\"row\">" +
-                            "<div class=\"col-md-6\">\n" +
-                                "<div class=\"panel panel-default\">\n" +
-                                    "<div class=\"panel-heading\">\n" +
-                                        "<strong>Interfaces</strong>\n" +
-                                    "</div>\n" +
-                                    "<table class=\"table table-hover table-headings\">\n" +
-                                        "<thead><tr><th>Description</th><th>Physical address</th><th>Admin status</th><th>Op status</th></tr></thead>" +
-                                        "<tbody>\n" +
-                                            interface_str +
-                                        "</tbody>\n" +
-                                    "</table>\n" +
-                                "</div>\n" +
-                            "</div>\n" +
+                        "<div class=\"col-md-6\">\n" +
+                        "<div class=\"panel panel-default\">\n" +
+                        "<div class=\"panel-heading\">\n" +
+                        "<strong>Interfaces</strong>\n" +
+                        "</div>\n" +
+                        "<table class=\"table table-hover table-headings\">\n" +
+                        "<thead><tr><th>Description</th><th>Physical address</th><th>Admin status</th><th>Op status</th></tr></thead>" +
+                        "<tbody>\n" +
+                        interface_str +
+                        "</tbody>\n" +
+                        "</table>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
                         "</div>")
                 }
 
@@ -204,7 +216,7 @@
                         "</div>\n" +
                         "</div>\n" +
                         "</div>")
-                } else if(json['hardware_health']) {
+                } else if (json['hardware_health']) {
                     let fans = json['hardware_health']['fans']
                     let health_str = ""
                     for (let i = 0; i < fans.length; i++) {

@@ -4,13 +4,13 @@
         <strong>Thola</strong>
     </div>
     <div class="panel-body rendered-markdown">
-        <a href="{{ thola_device.get_absolute_url }}" class="text-info">
+        <a href="{{ thola_config.get_absolute_url }}" class="text-info">
             Enabled
         </a>
         <span class="mdi mdi-check-bold"></span>
     </div>
     <div class="panel-footer text-left noprint">
-        <a href="{% url 'plugins:thola_nautobot:tholadevice_status' pk=thola_device.pk %}" class="btn btn-success btn-xs">
+        <a href="{% url 'plugins:thola_nautobot:tholaconfig_status' pk=thola_config.pk %}" class="btn btn-success btn-xs">
             Live Status
         </a>
     </div>

@@ -1,6 +1,6 @@
 """Plugin declaration for thola nautobot."""
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 from nautobot.extras.plugins import PluginConfig
 
@@ -21,7 +21,9 @@ class Thola(PluginConfig):
         'snmp_port': 161,
         'snmp_discover_par_requests': 5,
         'snmp_discover_timeout': 2,
-        'snmp_discover_retries': 0
+        'snmp_discover_retries': 0,
+        'onboarding_create_models': True,
+        'onboarding_device_name': True
     }
 
 

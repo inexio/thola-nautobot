@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load buttons %}
+{% load static %}
+{% load custom_links %}
+{% load helpers %}
+
+{% block title %}Onboarding Task{% endblock %}
+
+{% block header %}
+<div class="row noprint">
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'plugins:thola_nautobot:tholaonboarding_list' %}">Onboardings</a></li>
+            <li>Onboarding</li>
+        </ol>
+    </div>
+</div>
+<div class="pull-right noprint">
+    {% edit_button object use_pk=1 %}
+    {% delete_button object use_pk=1 %}
+</div>
+<h1>Onboarding Task</h1>
+{% include 'inc/created_updated.html' %}
+<div class="pull-right noprint">
+    {% custom_links object %}
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Onboarding</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>IP address</td>
+                    <td>{{ object.ip }}</td>
+                </tr>
+                <tr>
+                    <td>Site</td>
+                    <td><a href="{{ object.site.get_absolute_url }}">{{ object.site.name }}</a></td>
+                </tr>
+                <tr>
+                    <td>Role</td>
+                    <td><a href="{{ object.role.get_absolute_url }}">{{ object.role.name }}</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>SNMP Config</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                <tr>
+                    <td>Version</td>
+                    {% if object.snmp_version %}
+                    <td>{{ object.snmp_version }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Community</td>
+                    {% if object.snmp_community %}
+                    <td>{{ object.snmp_community }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Port</td>
+                    {% if object.snmp_port %}
+                    <td>{{ object.snmp_port }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Discover par requests</td>
+                    {% if object.snmp_discover_par_requests %}
+                    <td>{{ object.snmp_discover_par_requests }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Discover retries</td>
+                    {% if object.snmp_discover_retries %}
+                    <td>{{ object.snmp_discover_retries }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td>Discover timeout</td>
+                    {% if object.snmp_discover_timeout %}
+                    <td>{{ object.snmp_discover_timeout }}</td>
+                    {% else %}
+                    <td><span class="text-muted">Default</span></td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Status</strong>
+            </div>
+            <table class="table table-hover panel-body attr-table">
+                {% if object.status == "success" %}
+                <tr>
+                    <td>Status</td>
+                    <td><span class="text-success">Success </span><span class="mdi mdi-check-bold"></span></td>
+                </tr>
+                <tr>
+                    <td>Device</td>
+                    <td><a href="{{ object.device.get_absolute_url }}">show</a></td>
+                </tr>
+                {% elif object.status == "pending" %}
+                <tr>
+                    <td>Status</td>
+                    <td>Pending <span class="mdi mdi-clock"></span></td>
+                </tr>
+                {% elif object.status == "running" %}
+                <tr>
+                    <td>Status</td>
+                    <td>Running <span class="mdi mdi-clock"></span></td>
+                </tr>
+                {% elif object.status == "failed" %}
+                <tr>
+                    <td>Status</td>
+                    <td><span class="text-danger">Failed </span><span class="mdi mdi-close"></span></td>
+                </tr>
+                <tr>
+                    <td>Reason</td>
+                    <td>{{ object.error_message }}</td>
+                </tr>
+                {% elif object.status == "warning" %}
+                <tr>
+                    <td>Status</td>
+                    <td><span class="text-warning">Warning </span><span class="mdi mdi-exclamation"></span></td>
+                </tr>
+                <tr>
+                    <td>Reason</td>
+                    <td>{{ object.error_message }}</td>
+                </tr>
+                {% endif %}
+            </table>
+            <div class="panel-footer noprint">
+                {% if object.status == "success" or object.status == "warning" %}
+                <a href="{% url 'plugins:thola_nautobot:tholaonboarding_delete' pk=object.pk %}"
+                   class="btn btn-success btn-xs">
+                    <span class="mdi mdi-trash-can" aria-hidden="true"></span>
+                    Delete Onboarding
+                </a>
+                {% endif %}
+                {% if object.status == "warning" or object.status == "failed" %}
+                <form action="{{ onboard_url }}" method="post" id="refreshForm" style="display: inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-xs">
+                        <span class="mdi mdi-refresh" aria-hidden="true"></span>
+                        Rerun
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% if object.status == "failed" or object.status == "warning" %}
+{% block javascript %}
+<script>
+    document.getElementById('refreshForm').addEventListener('submit', async function (e) {
+        e.preventDefault()
+        const data = new URLSearchParams()
+        for (const pair of new FormData(document.getElementById("refreshForm"))) {
+            data.append(pair[0], pair[1].toString());
+        }
+        await fetch("{{ onboard_url }}", {
+            method: 'POST',
+            body: data,
+            credentials: 'include'
+        })
+        setTimeout(function(){ location.reload() }, 500);
+
+    })
+</script>
+{% endblock %}
+{% endif %}
